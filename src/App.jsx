@@ -1,8 +1,10 @@
 import { Routes, Route, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { AppBar, Box, BottomNavigation, BottomNavigationAction, Toolbar, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
+import FloatingGlowBackground from "./components/FloatingGlowBackground.jsx";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Info from "./pages/Info.jsx";
@@ -17,6 +19,7 @@ function MobileLayout() {
   return (
     <Box
       sx={{
+        position: "relative",
         width: "100%",
         minHeight: "100vh",
         "@supports (min-height: 100dvh)": {
@@ -24,18 +27,21 @@ function MobileLayout() {
         },
         display: "flex",
         flexDirection: "column",
-        bgcolor: "background.default",
+        bgcolor: "transparent",
         // Mobile-first: safe areas on notched devices; no desktop “phone frame”.
         pt: "env(safe-area-inset-top)",
       }}
     >
+      <FloatingGlowBackground />
       <AppBar
         position="sticky"
         color="transparent"
         elevation={0}
         sx={{
           top: 0,
-          bgcolor: "background.paper",
+          zIndex: 1,
+          bgcolor: (theme) => alpha(theme.palette.background.paper, 0.82),
+          backdropFilter: "blur(12px)",
           borderBottom: 1,
           borderColor: "divider",
         }}
@@ -43,10 +49,12 @@ function MobileLayout() {
         <Toolbar
           sx={{
             flexDirection: "column",
-            alignItems: "flex-start",
+            alignItems: "center",
+            textAlign: "center",
             py: 1.5,
             gap: 0.25,
             minHeight: "unset",
+            width: "100%",
           }}
         >
           <Typography variant="h6" component="h1" fontWeight={700}>
@@ -61,15 +69,26 @@ function MobileLayout() {
       <Box
         component="main"
         sx={{
+          position: "relative",
+          zIndex: 1,
           flex: 1,
           width: "100%",
           minHeight: 0,
           overflow: "auto",
           px: 2,
           py: 1.5,
+          bgcolor: "transparent",
         }}
       >
-        <Outlet />
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: { xs: "100%", sm: 520 },
+            mx: "auto",
+          }}
+        >
+          <Outlet />
+        </Box>
       </Box>
 
       <BottomNavigation
@@ -77,11 +96,14 @@ function MobileLayout() {
         value={value}
         onChange={(_, newValue) => navigate(navPaths[newValue])}
         sx={{
+          position: "relative",
+          zIndex: 1,
           width: "100%",
           flexShrink: 0,
           borderTop: 1,
           borderColor: "divider",
-          bgcolor: "background.paper",
+          bgcolor: (theme) => alpha(theme.palette.background.paper, 0.88),
+          backdropFilter: "blur(12px)",
           pt: 0.5,
           pb: "max(8px, env(safe-area-inset-bottom))",
         }}

@@ -23,6 +23,7 @@ import {
   TableRow,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { motion } from "motion/react";
@@ -62,8 +63,10 @@ function nameInitial(fullName) {
 }
 
 export default function Home() {
+  const isNarrow = useMediaQuery((t) => t.breakpoints.down("sm"));
   const [query, setQuery] = useState("");
   const [userClosedDrawer, setUserClosedDrawer] = useState(false);
+  const [selectedFromTable, setSelectedFromTable] = useState(null);
 
   const matches = useMemo(
     () => filterPeopleByNameQuery(TEST_PEOPLE, query),
@@ -71,8 +74,20 @@ export default function Home() {
   );
 
   const singleMatch = matches.length === 1 ? matches[0] : null;
-  const drawerOpen =
-    Boolean(singleMatch && query.trim() && !userClosedDrawer);
+  const resolvedPerson = useMemo(() => {
+    if (singleMatch) return singleMatch;
+    if (
+      selectedFromTable &&
+      matches.some((m) => m.id === selectedFromTable.id)
+    ) {
+      return selectedFromTable;
+    }
+    return null;
+  }, [singleMatch, selectedFromTable, matches]);
+
+  const drawerOpen = Boolean(
+    resolvedPerson && query.trim() && !userClosedDrawer,
+  );
 
   useEffect(() => {
     if (matches.length !== 1) {
@@ -82,20 +97,30 @@ export default function Home() {
 
   const handleQueryChange = (event) => {
     setQuery(event.target.value);
+    setSelectedFromTable(null);
     setUserClosedDrawer(false);
   };
 
   const handleRowClick = (person) => {
-    setQuery(person.fullName);
+    setSelectedFromTable(person);
     setUserClosedDrawer(false);
+  };
+
+  const handleRowKeyDown = (event, person) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleRowClick(person);
+    }
   };
 
   const handleDrawerClose = () => {
     setUserClosedDrawer(true);
+    setSelectedFromTable(null);
   };
 
   const handleClearQuery = () => {
     setQuery("");
+    setSelectedFromTable(null);
     setUserClosedDrawer(false);
   };
 
@@ -103,14 +128,16 @@ export default function Home() {
   const showTable = matches.length > 1;
 
   return (
-    <Stack spacing={2}>
-      <Typography variant="h5" component="h2" fontWeight={600}>
-        Find your seat
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        Type your name. We match similar names in the guest list (substring, not case
-        sensitive).
-      </Typography>
+    <Stack spacing={2} alignItems="stretch">
+      <Box sx={{ textAlign: "center" }}>
+        <Typography variant="h5" component="h2" fontWeight={600}>
+          Find your seat
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1, maxWidth: 440, mx: "auto" }}>
+          Type your name. We match similar names in the guest list (substring, not case
+          sensitive).
+        </Typography>
+      </Box>
 
       <TextField
         fullWidth
@@ -139,43 +166,138 @@ export default function Home() {
       />
 
       {showNoMatches && (
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" textAlign="center">
           No matches for that search.
         </Typography>
       )}
 
       {showTable && (
-        <Box>
-          <Typography variant="subtitle2" fontWeight={600} gutterBottom>
-            Similar names — tap a row to select
-          </Typography>
-          <TableContainer
-            component={Paper}
-            variant="outlined"
-            sx={{ maxHeight: 280 }}
+        <Box sx={{ textAlign: "center" }}>
+          <Typography
+            id="similar-names-heading"
+            variant="subtitle1"
+            fontWeight={600}
+            gutterBottom
+            sx={{ maxWidth: 520, mx: "auto" }}
           >
-            <Table size="small" stickyHeader>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Full name</TableCell>
-                  <TableCell>Seating location</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {matches.map((person) => (
-                  <TableRow
-                    key={person.id}
-                    hover
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => handleRowClick(person)}
-                  >
-                    <TableCell>{person.fullName}</TableCell>
-                    <TableCell>{person.seatingLocation}</TableCell>
+            Similar names — tap a row, or focus a row and press Enter or Space to see your seat
+          </Typography>
+          {isNarrow ? (
+            <Stack spacing={1.5} sx={{ mt: 1, textAlign: "left" }} aria-labelledby="similar-names-heading">
+              {matches.map((person) => (
+                <Card
+                  key={person.id}
+                  component="div"
+                  role="button"
+                  tabIndex={0}
+                  variant="outlined"
+                  aria-label={`Show seating for ${person.fullName}`}
+                  sx={(t) => ({
+                    cursor: "pointer",
+                    transition: t.transitions.create(["box-shadow", "border-color"], {
+                      duration: t.transitions.duration.shorter,
+                    }),
+                    "&:focus-visible": {
+                      outline: `2px solid ${t.palette.primary.main}`,
+                      outlineOffset: 2,
+                    },
+                  })}
+                  onClick={() => handleRowClick(person)}
+                  onKeyDown={(event) => handleRowKeyDown(event, person)}
+                >
+                  <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
+                    <Typography variant="subtitle1" fontWeight={700} gutterBottom>
+                      {person.fullName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" component="p">
+                      {person.seatingLocation}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              ))}
+            </Stack>
+          ) : (
+            <TableContainer
+              component={Paper}
+              variant="outlined"
+              sx={{ maxHeight: { xs: 360, sm: 420 }, mt: 1 }}
+            >
+              <Table
+                stickyHeader
+                size="medium"
+                aria-labelledby="similar-names-heading"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell
+                      sx={{
+                        typography: "subtitle1",
+                        fontWeight: 700,
+                        fontSize: "1.05rem",
+                        py: 2,
+                        minHeight: 48,
+                      }}
+                    >
+                      Full name
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        typography: "subtitle1",
+                        fontWeight: 700,
+                        fontSize: "1.05rem",
+                        py: 2,
+                        minHeight: 48,
+                      }}
+                    >
+                      Seating location
+                    </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {matches.map((person) => (
+                    <TableRow
+                      key={person.id}
+                      hover
+                      tabIndex={0}
+                      aria-label={`Show seating for ${person.fullName}`}
+                      sx={(t) => ({
+                        cursor: "pointer",
+                        "&:focus-visible": {
+                          outline: `2px solid ${t.palette.primary.main}`,
+                          outlineOffset: -2,
+                        },
+                      })}
+                      onClick={() => handleRowClick(person)}
+                      onKeyDown={(event) => handleRowKeyDown(event, person)}
+                    >
+                      <TableCell
+                        sx={{
+                          typography: "body1",
+                          fontSize: "1.0625rem",
+                          lineHeight: 1.45,
+                          py: 2,
+                          minHeight: 52,
+                        }}
+                      >
+                        {person.fullName}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          typography: "body1",
+                          fontSize: "1.0625rem",
+                          lineHeight: 1.45,
+                          py: 2,
+                          minHeight: 52,
+                        }}
+                      >
+                        {person.seatingLocation}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
         </Box>
       )}
 
@@ -186,8 +308,17 @@ export default function Home() {
         onOpen={() => {}}
         disableSwipeToOpen
         ModalProps={{ keepMounted: true }}
+        slotProps={{
+          backdrop: {
+            sx: {
+              backgroundColor: (theme) => alpha(theme.palette.common.black, 0.38),
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+            },
+          },
+        }}
         PaperProps={{
-          sx: {
+          sx: (theme) => ({
             width: "100%",
             height: "100vh",
             maxHeight: "100vh",
@@ -203,7 +334,13 @@ export default function Home() {
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
-          },
+            bgcolor: alpha(theme.palette.background.paper, 0.76),
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
+            backgroundImage: `linear-gradient(165deg, ${alpha(theme.palette.primary.main, 0.12)} 0%, transparent 42%), linear-gradient(180deg, ${alpha(theme.palette.background.paper, 0.5)} 0%, ${alpha(theme.palette.background.default, 0.35)} 100%)`,
+            borderTop: `1px solid ${alpha(theme.palette.primary.main, 0.22)}`,
+            boxShadow: `0 -8px 40px ${alpha(theme.palette.common.black, 0.45)}`,
+          }),
         }}
       >
         <Box
@@ -242,9 +379,9 @@ export default function Home() {
             <CloseIcon />
           </IconButton>
         </Box>
-        {singleMatch && (
+        {resolvedPerson && (
           <motion.div
-            key={singleMatch.id}
+            key={resolvedPerson.id}
             variants={drawerContainerVariants}
             initial="hidden"
             animate={drawerOpen ? "visible" : "hidden"}
@@ -256,6 +393,7 @@ export default function Home() {
               minHeight: 0,
               width: "100%",
               overflow: "auto",
+              textAlign: "center",
             }}
           >
             <motion.div variants={drawerItemVariants}>
@@ -265,22 +403,28 @@ export default function Home() {
             </motion.div>
 
             <motion.div variants={drawerItemVariants}>
-              <Stack direction="row" spacing={2} alignItems="center" sx={{ py: 0.5 }}>
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                alignItems="center"
+                justifyContent="center"
+                sx={{ py: 0.5 }}
+              >
                 <Avatar
                   sx={{
                     width: 72,
                     height: 72,
                     fontSize: "1.75rem",
                     fontWeight: 700,
-                    bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
+                    bgcolor: (t) => alpha(t.palette.primary.main, 0.2),
                     color: "primary.main",
                   }}
                   aria-hidden
                 >
-                  {nameInitial(singleMatch.fullName)}
+                  {nameInitial(resolvedPerson.fullName)}
                 </Avatar>
                 <Typography variant="h4" component="p" fontWeight={800} sx={{ lineHeight: 1.2 }}>
-                  {singleMatch.fullName}
+                  {resolvedPerson.fullName}
                 </Typography>
               </Stack>
             </motion.div>
@@ -294,19 +438,32 @@ export default function Home() {
                 variant="outlined"
                 sx={{
                   borderRadius: 2,
-                  bgcolor: (theme) => alpha(theme.palette.primary.main, 0.06),
-                  borderColor: "divider",
+                  bgcolor: (t) => alpha(t.palette.background.paper, 0.72),
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  borderColor: (t) => alpha(t.palette.primary.main, 0.28),
+                  boxShadow: (t) => `0 4px 24px ${alpha(t.palette.common.black, 0.2)}, inset 0 1px 0 ${alpha(t.palette.common.white, 0.06)}`,
                 }}
               >
                 <CardContent sx={{ "&:last-child": { pb: 2 } }}>
-                  <Stack direction="row" spacing={1.5} alignItems="flex-start">
-                    <EventSeatRoundedIcon color="primary" sx={{ mt: 0.25 }} aria-hidden />
-                    <Box>
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    spacing={1.5}
+                    alignItems={{ xs: "center", sm: "flex-start" }}
+                    justifyContent={{ xs: "center", sm: "flex-start" }}
+                  >
+                    <EventSeatRoundedIcon color="primary" sx={{ mt: { xs: 0, sm: 0.25 } }} aria-hidden />
+                    <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
                       <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
                         Seating location
                       </Typography>
-                      <Typography variant="h6" component="p" fontWeight={700} sx={{ lineHeight: 1.35 }}>
-                        {singleMatch.seatingLocation}
+                      <Typography
+                        variant="h6"
+                        component="p"
+                        fontWeight={700}
+                        sx={{ lineHeight: 1.35, fontSize: { xs: "1.35rem", sm: undefined } }}
+                      >
+                        {resolvedPerson.seatingLocation}
                       </Typography>
                     </Box>
                   </Stack>
@@ -314,10 +471,12 @@ export default function Home() {
               </Card>
             </motion.div>
 
-            {(singleMatch.department || singleMatch.role || singleMatch.title) && (
+            {(resolvedPerson.department ||
+              resolvedPerson.role ||
+              resolvedPerson.title) && (
               <motion.div variants={drawerItemVariants}>
-                <Typography variant="body2" color="text.secondary" sx={{ pt: 0.5 }}>
-                  {[singleMatch.department, singleMatch.role ?? singleMatch.title]
+                <Typography variant="body2" color="text.secondary" sx={{ pt: 0.5, textAlign: "center" }}>
+                  {[resolvedPerson.department, resolvedPerson.role ?? resolvedPerson.title]
                     .filter(Boolean)
                     .join(" · ")}
                 </Typography>
@@ -327,7 +486,7 @@ export default function Home() {
         )}
       </SwipeableDrawer>
 
-      <Typography variant="body2">
+      <Typography variant="body2" textAlign="center" sx={{ pt: 0.5 }}>
         <Link component={RouterLink} to="/about" underline="hover">
           About
         </Link>

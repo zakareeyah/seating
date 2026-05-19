@@ -1,8 +1,8 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 export default function About() {
   return (
-    <>
+    <Box sx={{ textAlign: "center", maxWidth: 440, mx: "auto" }}>
       <Typography variant="h5" component="h2" fontWeight={600} gutterBottom>
         About
       </Typography>
@@ -13,6 +13,6 @@ export default function About() {
       <Typography variant="body2" color="text.secondary">
         Seating app — GitHub Pages test
       </Typography>
-    </>
+    </Box>
   );
 }
