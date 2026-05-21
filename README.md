@@ -36,6 +36,13 @@ npm run preview
 
 [`vite.config.js`](vite.config.js) sets `base: '/seating/'` so assets resolve on a **project** GitHub Pages URL (`/<repo>/`). If you **rename the repository**, update `base` to `/<new-repo-name>/`. For a **user or org site** at the domain root (`username.github.io`), use `base: '/'` instead.
 
+### Security headers
+
+- **In-page policy:** a strict CSP is set via `<meta http-equiv="Content-Security-Policy">` in [`index.html`](index.html) (scripts, styles, fonts, images).
+- **Subresource Integrity:** production builds use [`vite-plugin-sri-gen`](vite.config.js) to add `integrity` (and `crossorigin`) on bundled JS/CSS in `dist/index.html`. Google Fonts are excluded (dynamic third-party CSS).
+- **HTTP response headers** (HSTS, `X-Content-Type-Options`, `X-Frame-Options`, enforced `frame-ancestors`, CORP) are what most security scanners grade. GitHub Pages does **not** let you set those from the repository. Enable **Enforce HTTPS** under **Settings → Pages** for transport redirects; for full scanner scores you would need a header-capable CDN (e.g. Cloudflare Transform Rules on a custom domain).
+- **Re-scan** the live site after deploy: `https://<your-username>.github.io/seating/` (not `vite preview` or localhost).
+
 ## Stack
 
 - Vite, React, `react-router-dom` (`HashRouter`)
