@@ -11,6 +11,8 @@ npm install
 npm run dev
 ```
 
+A strict Content-Security-Policy is set via `<meta http-equiv="Content-Security-Policy">` in [`index.html`](index.html). That policy is tuned for the production build; `npm run dev` (Vite HMR) may log CSP errors for WebSocket or inline dev scripts. Use `npm run build && npm run preview` to verify CSP the same way GitHub Pages serves the app.
+
 ## Production build (local check)
 
 ```bash
