@@ -1,7 +1,5 @@
-import rawGuests from "./guests.json";
+import rawGuestData from "./guests.json";
+import { isEncryptedGuestEnvelope } from "../utils/guestCrypto.js";
 
-export const GUEST_LIST = rawGuests.map((guest, i) => ({
-  id: `g-${String(i + 1).padStart(3, "0")}`,
-  fullName: guest.fullName,
-  tableNumber: guest.tableNumber,
-}));
+export const rawGuests = rawGuestData;
+export const guestDataIsEncrypted = isEncryptedGuestEnvelope(rawGuestData);

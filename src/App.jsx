@@ -5,6 +5,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import FloatingGlowBackground from "./components/FloatingGlowBackground.jsx";
+import { GuestProvider } from "./context/GuestDataContext.jsx";
 import {
   appTagline,
   coupleNames,
@@ -103,7 +104,9 @@ function MobileLayout() {
       <BottomNavigation
         showLabels
         value={value}
-        onChange={(_, newValue) => navigate(navPaths[newValue])}
+        onChange={(_, newValue) =>
+          navigate({ pathname: navPaths[newValue], search: location.search })
+        }
         sx={{
           position: "fixed",
           bottom: 0,
@@ -129,12 +132,14 @@ function MobileLayout() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route element={<MobileLayout />}>
-        <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="info" element={<Info />} />
-      </Route>
-    </Routes>
+    <GuestProvider>
+      <Routes>
+        <Route element={<MobileLayout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="info" element={<Info />} />
+        </Route>
+      </Routes>
+    </GuestProvider>
   );
 }

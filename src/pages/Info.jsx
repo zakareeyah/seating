@@ -1,4 +1,6 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
+import { useSearchParams } from "react-router-dom";
+import GuestEncryptTool from "../components/GuestEncryptTool.jsx";
 import {
   helpHostsNote,
   helpHowBody,
@@ -9,6 +11,9 @@ import {
 } from "../content/wedding.js";
 
 export default function Info() {
+  const [searchParams] = useSearchParams();
+  const debug = searchParams.get("debug");
+
   return (
     <Box sx={{ textAlign: "center", maxWidth: 440, mx: "auto" }}>
       <Typography variant="h5" component="h2" fontWeight={600} gutterBottom>
@@ -34,6 +39,12 @@ export default function Info() {
         <Typography variant="caption" color="text.secondary" sx={{ textAlign: "center", display: "block" }}>
           {helpHostsNote}
         </Typography>
+        {debug && (
+          <>
+            <Divider />
+            <GuestEncryptTool />
+          </>
+        )}
       </Stack>
     </Box>
   );

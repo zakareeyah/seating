@@ -32,14 +32,16 @@ import {
   nameColumnLabel,
   noMatches,
   searchLabel,
+  searchLockedBadKey,
+  searchLockedNoKey,
   searchPlaceholder,
   similarNamesHint,
   tableColumnLabel,
   tableLabel,
   weddingDate,
 } from "../content/wedding.js";
-import { GUEST_LIST } from "../data/guests.js";
 import BlendedLogo from "../components/BlendedLogo.jsx";
+import { useGuestList } from "../context/GuestDataContext.jsx";
 import { filterPeopleByNameQuery } from "../utils/filterPeopleByNameQuery.js";
 import { formatGuestTable } from "../utils/formatGuestTable.js";
 
@@ -72,13 +74,14 @@ const drawerItemVariants = {
 
 export default function Home() {
   const isNarrow = useMediaQuery((t) => t.breakpoints.down("sm"));
+  const { guestList, isSearchEnabled, status } = useGuestList();
   const [query, setQuery] = useState("");
   const [userClosedDrawer, setUserClosedDrawer] = useState(false);
   const [selectedFromTable, setSelectedFromTable] = useState(null);
 
   const matches = useMemo(
-    () => filterPeopleByNameQuery(GUEST_LIST, query),
-    [query],
+    () => filterPeopleByNameQuery(guestList, query),
+    [guestList, query],
   );
 
   const singleMatch = matches.length === 1 ? matches[0] : null;
@@ -132,8 +135,10 @@ export default function Home() {
     setUserClosedDrawer(false);
   };
 
-  const showNoMatches = query.trim().length > 0 && matches.length === 0;
-  const showTable = matches.length > 1;
+  const showNoMatches = isSearchEnabled && query.trim().length > 0 && matches.length === 0;
+  const showTable = isSearchEnabled && matches.length > 1;
+  const lockedMessage =
+    status === "invalid_password" ? searchLockedBadKey : searchLockedNoKey;
 
   return (
     <Stack spacing={2} alignItems="stretch">
@@ -150,6 +155,27 @@ export default function Home() {
         </Typography>
       </Box>
 
+      {!isSearchEnabled && status !== "loading" && (
+        <Paper
+          variant="outlined"
+          sx={(t) => ({
+            px: 2,
+            py: 1.5,
+            textAlign: "center",
+            borderRadius: 2,
+            bgcolor: alpha(t.palette.background.paper, 0.72),
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            borderColor: alpha(t.palette.primary.main, 0.28),
+            boxShadow: `0 4px 24px ${alpha(t.palette.common.black, 0.2)}, inset 0 1px 0 ${alpha(t.palette.common.white, 0.06)}`,
+          })}
+        >
+          <Typography variant="body2" color="text.secondary">
+            {lockedMessage}
+          </Typography>
+        </Paper>
+      )}
+
       <TextField
         fullWidth
         label={searchLabel}
@@ -157,6 +183,7 @@ export default function Home() {
         onChange={handleQueryChange}
         placeholder={searchPlaceholder}
         autoComplete="name"
+        disabled={!isSearchEnabled}
         slotProps={{
           input: {
             endAdornment: query ? (

@@ -40,3 +40,21 @@ export const helpNoMatchBody =
   "Double-check the spelling against your invitation. If you're still stuck, speak to a member of the wedding party — they'll have the full guest list.";
 export const helpHostsNote =
   "Table assignments are managed by the hosts and may be updated before the reception.";
+
+export const searchLockedNoKey =
+  "Use the personalized link from your invitation to search for your seat.";
+
+export const searchLockedBadKey =
+  "This link doesn't seem to unlock the guest list. Please double-check your invitation link, or ask a member of the wedding party.";
+
+export const encryptToolTitle = "Host tools";
+export const encryptToolDescription =
+  "Upload a plain guest list JSON file, choose a password, and download an encrypted file to replace guests.json.";
+export const encryptToolFileLabel = "Guest list file";
+export const encryptToolPasswordLabel = "Encryption password";
+export const encryptToolButton = "Encrypt & download";
+export const encryptToolSuccess = "Encrypted guests.json downloaded.";
+export const encryptToolInvalidFile =
+  "Please upload a valid guest list JSON file (array of fullName and tableNumber).";
+export const encryptToolPasswordRequired = "Please enter a password.";
+export const encryptToolError = "Encryption failed. Please try again.";
