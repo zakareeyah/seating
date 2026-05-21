@@ -6,6 +6,7 @@ const winePaper = "#8A2842";
 const mutedRose = "#C9A8A3";
 const floralRose = "#E8A4B8";
 const olive = "#6B7354";
+const white = "#FFFFFF";
 
 const playfair = '"Playfair Display", Georgia, serif';
 const lora = '"Lora", Georgia, serif';
@@ -30,8 +31,8 @@ export const theme = createTheme({
       contrastText: blush,
     },
     text: {
-      primary: blush,
-      secondary: mutedRose,
+      primary: white,
+      secondary: alpha(white, 0.92),
     },
     divider: alpha(blush, 0.22),
     background: {
@@ -61,6 +62,52 @@ export const theme = createTheme({
   },
   shape: { borderRadius: 12 },
   components: {
+    MuiInputBase: {
+      styleOverrides: {
+        input: {
+          color: white,
+          "&::placeholder": {
+            color: alpha(white, 0.82),
+            opacity: 1,
+          },
+          "&.Mui-disabled": {
+            WebkitTextFillColor: alpha(white, 0.45),
+          },
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: alpha(white, 0.38),
+          },
+          "&:hover:not(.Mui-disabled) .MuiOutlinedInput-notchedOutline": {
+            borderColor: alpha(white, 0.58),
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: alpha(white, 0.9),
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: white,
+          "&.Mui-disabled": {
+            color: alpha(white, 0.45),
+          },
+        },
+      },
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          color: alpha(white, 0.92),
+        },
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: {
         "*": {

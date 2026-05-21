@@ -6,7 +6,9 @@ import {
   Button,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import QRCode from "react-qr-code";
 import { useLocation, useSearchParams } from "react-router-dom";
 import {
@@ -24,6 +26,7 @@ const QR_SIZE = 200;
 const LOGO_SIZE = 44;
 
 export default function ShareSection() {
+  const theme = useTheme();
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const { status } = useGuestList();
@@ -61,7 +64,8 @@ export default function ShareSection() {
             bgcolor: "#FFFFFF",
             borderRadius: 2,
             border: 1,
-            borderColor: "divider",
+            borderColor: alpha(theme.palette.primary.main, 0.28),
+            boxShadow: `0 4px 24px ${alpha(theme.palette.common.black, 0.12)}`,
             lineHeight: 0,
           }}
         >
@@ -71,7 +75,7 @@ export default function ShareSection() {
               size={QR_SIZE}
               level="H"
               bgColor="#FFFFFF"
-              fgColor="#1a1a1a"
+              fgColor={theme.palette.background.default}
             />
             <Box
               sx={{
