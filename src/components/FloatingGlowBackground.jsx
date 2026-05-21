@@ -1,14 +1,14 @@
 import { Box, useTheme } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
-/** Static blurred glow blobs (no motion). */
+/** Static blurred glow blobs (no motion). useRose: floral rose tint instead of blush. */
 const ORBS = [
   { w: 220, h: 200, left: "6%", top: "10%", opacity: 0.52 },
-  { w: 160, h: 180, left: "72%", top: "8%", opacity: 0.48 },
+  { w: 160, h: 180, left: "72%", top: "8%", opacity: 0.48, useRose: true },
   { w: 280, h: 240, left: "38%", top: "42%", opacity: 0.42 },
-  { w: 140, h: 160, left: "12%", top: "58%", opacity: 0.46 },
+  { w: 140, h: 160, left: "12%", top: "58%", opacity: 0.46, useRose: true },
   { w: 200, h: 190, left: "78%", top: "52%", opacity: 0.5 },
-  { w: 120, h: 140, left: "48%", top: "78%", opacity: 0.4 },
+  { w: 120, h: 140, left: "48%", top: "78%", opacity: 0.4, useRose: true },
   { w: 100, h: 120, left: "85%", top: "28%", opacity: 0.38 },
 ];
 
@@ -30,6 +30,7 @@ function orbSx(orb, primary) {
 export default function FloatingGlowBackground() {
   const theme = useTheme();
   const primary = theme.palette.primary.main;
+  const rose = theme.palette.secondary.main;
 
   return (
     <Box
@@ -61,7 +62,7 @@ export default function FloatingGlowBackground() {
         }}
       />
       {ORBS.map((orb, i) => (
-        <Box key={i} sx={orbSx(orb, primary)} />
+        <Box key={i} sx={orbSx(orb, orb.useRose ? rose : primary)} />
       ))}
     </Box>
   );

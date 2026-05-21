@@ -1,17 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import ClearIcon from "@mui/icons-material/Clear";
 import EventSeatRoundedIcon from "@mui/icons-material/EventSeatRounded";
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
   Divider,
   IconButton,
   InputAdornment,
-  Link,
   Paper,
   Stack,
   SwipeableDrawer,
@@ -27,8 +24,24 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { motion } from "motion/react";
-import { TEST_PEOPLE } from "../data/testPeople.js";
+import {
+  coupleNames,
+  drawerWelcome,
+  heroSubtitle,
+  heroTitle,
+  nameColumnLabel,
+  noMatches,
+  searchLabel,
+  searchPlaceholder,
+  similarNamesHint,
+  tableColumnLabel,
+  tableLabel,
+  weddingDate,
+} from "../content/wedding.js";
+import { GUEST_LIST } from "../data/guests.js";
+import BlendedLogo from "../components/BlendedLogo.jsx";
 import { filterPeopleByNameQuery } from "../utils/filterPeopleByNameQuery.js";
+import { formatGuestTable } from "../utils/formatGuestTable.js";
 
 const drawerEase = [0.22, 1, 0.36, 1];
 
@@ -57,11 +70,6 @@ const drawerItemVariants = {
   },
 };
 
-function nameInitial(fullName) {
-  const t = fullName.trim();
-  return t ? t[0].toUpperCase() : "?";
-}
-
 export default function Home() {
   const isNarrow = useMediaQuery((t) => t.breakpoints.down("sm"));
   const [query, setQuery] = useState("");
@@ -69,7 +77,7 @@ export default function Home() {
   const [selectedFromTable, setSelectedFromTable] = useState(null);
 
   const matches = useMemo(
-    () => filterPeopleByNameQuery(TEST_PEOPLE, query),
+    () => filterPeopleByNameQuery(GUEST_LIST, query),
     [query],
   );
 
@@ -130,21 +138,24 @@ export default function Home() {
   return (
     <Stack spacing={2} alignItems="stretch">
       <Box sx={{ textAlign: "center" }}>
-        <Typography variant="h5" component="h2" fontWeight={600}>
-          Find your seat
+        <BlendedLogo maxWidth={280} sx={{ mb: 1.5 }} />
+        <Typography variant="overline" color="text.secondary">
+          {weddingDate}
+        </Typography>
+        <Typography variant="h5" component="h2" fontWeight={600} sx={{ mt: 0.5 }}>
+          {heroTitle}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1, maxWidth: 440, mx: "auto" }}>
-          Type your name. We match similar names in the guest list (substring, not case
-          sensitive).
+          {heroSubtitle}
         </Typography>
       </Box>
 
       <TextField
         fullWidth
-        label="Your name"
+        label={searchLabel}
         value={query}
         onChange={handleQueryChange}
-        placeholder="e.g. Sam or Zephyr"
+        placeholder={searchPlaceholder}
         autoComplete="name"
         slotProps={{
           input: {
@@ -167,55 +178,56 @@ export default function Home() {
 
       {showNoMatches && (
         <Typography variant="body2" color="text.secondary" textAlign="center">
-          No matches for that search.
+          {noMatches}
         </Typography>
       )}
 
       {showTable && (
         <Box sx={{ textAlign: "center" }}>
-          <Typography
-            id="similar-names-heading"
-            variant="subtitle1"
-            fontWeight={600}
-            gutterBottom
-            sx={{ maxWidth: 520, mx: "auto" }}
-          >
-            Similar names — tap a row, or focus a row and press Enter or Space to see your seat
-          </Typography>
           {isNarrow ? (
-            <Stack spacing={1.5} sx={{ mt: 1, textAlign: "left" }} aria-labelledby="similar-names-heading">
-              {matches.map((person) => (
-                <Card
-                  key={person.id}
-                  component="div"
-                  role="button"
-                  tabIndex={0}
-                  variant="outlined"
-                  aria-label={`Show seating for ${person.fullName}`}
-                  sx={(t) => ({
-                    cursor: "pointer",
-                    transition: t.transitions.create(["box-shadow", "border-color"], {
-                      duration: t.transitions.duration.shorter,
-                    }),
-                    "&:focus-visible": {
-                      outline: `2px solid ${t.palette.primary.main}`,
-                      outlineOffset: 2,
-                    },
-                  })}
-                  onClick={() => handleRowClick(person)}
-                  onKeyDown={(event) => handleRowKeyDown(event, person)}
-                >
-                  <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
-                    <Typography variant="subtitle1" fontWeight={700} gutterBottom>
-                      {person.fullName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" component="p">
-                      {person.seatingLocation}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              ))}
-            </Stack>
+            <Box
+              sx={{
+                maxHeight: { xs: 360, sm: 420 },
+                overflow: "auto",
+                mt: 1,
+                textAlign: "left",
+              }}
+              aria-labelledby="similar-names-heading"
+            >
+              <Stack spacing={1.5}>
+                {matches.map((person) => (
+                  <Card
+                    key={person.id}
+                    component="div"
+                    role="button"
+                    tabIndex={0}
+                    variant="outlined"
+                    aria-label={`Show seating for ${person.fullName}`}
+                    sx={(t) => ({
+                      cursor: "pointer",
+                      transition: t.transitions.create(["box-shadow", "border-color"], {
+                        duration: t.transitions.duration.shorter,
+                      }),
+                      "&:focus-visible": {
+                        outline: `2px solid ${t.palette.primary.main}`,
+                        outlineOffset: 2,
+                      },
+                    })}
+                    onClick={() => handleRowClick(person)}
+                    onKeyDown={(event) => handleRowKeyDown(event, person)}
+                  >
+                    <CardContent sx={{ py: 2, "&:last-child": { pb: 2 } }}>
+                      <Typography variant="subtitle1" fontWeight={700} gutterBottom>
+                        {person.fullName}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" component="p">
+                        {formatGuestTable(person.tableNumber)}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                ))}
+              </Stack>
+            </Box>
           ) : (
             <TableContainer
               component={Paper}
@@ -238,7 +250,7 @@ export default function Home() {
                         minHeight: 48,
                       }}
                     >
-                      Full name
+                      {nameColumnLabel}
                     </TableCell>
                     <TableCell
                       sx={{
@@ -249,7 +261,7 @@ export default function Home() {
                         minHeight: 48,
                       }}
                     >
-                      Seating location
+                      {tableColumnLabel}
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -290,7 +302,7 @@ export default function Home() {
                           minHeight: 52,
                         }}
                       >
-                        {person.seatingLocation}
+                        {formatGuestTable(person.tableNumber)}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -311,7 +323,8 @@ export default function Home() {
         slotProps={{
           backdrop: {
             sx: {
-              backgroundColor: (theme) => alpha(theme.palette.common.black, 0.38),
+              backgroundColor: (theme) =>
+                alpha(theme.palette.background.default, 0.55),
               backdropFilter: "blur(8px)",
               WebkitBackdropFilter: "blur(8px)",
             },
@@ -397,36 +410,24 @@ export default function Home() {
             }}
           >
             <motion.div variants={drawerItemVariants}>
+              <BlendedLogo maxWidth={160} sx={{ mb: 1 }} />
+            </motion.div>
+
+            <motion.div variants={drawerItemVariants}>
               <Typography variant="overline" color="text.secondary" letterSpacing={1.2}>
-                Welcome
+                {drawerWelcome}
               </Typography>
             </motion.div>
 
             <motion.div variants={drawerItemVariants}>
-              <Stack
-                direction={{ xs: "column", sm: "row" }}
-                spacing={2}
-                alignItems="center"
-                justifyContent="center"
-                sx={{ py: 0.5 }}
+              <Typography
+                variant="h4"
+                component="p"
+                fontWeight={800}
+                sx={{ lineHeight: 1.2, py: 0.5 }}
               >
-                <Avatar
-                  sx={{
-                    width: 72,
-                    height: 72,
-                    fontSize: "1.75rem",
-                    fontWeight: 700,
-                    bgcolor: (t) => alpha(t.palette.primary.main, 0.2),
-                    color: "primary.main",
-                  }}
-                  aria-hidden
-                >
-                  {nameInitial(resolvedPerson.fullName)}
-                </Avatar>
-                <Typography variant="h4" component="p" fontWeight={800} sx={{ lineHeight: 1.2 }}>
-                  {resolvedPerson.fullName}
-                </Typography>
-              </Stack>
+                {resolvedPerson.fullName}
+              </Typography>
             </motion.div>
 
             <motion.div variants={drawerItemVariants}>
@@ -455,7 +456,7 @@ export default function Home() {
                     <EventSeatRoundedIcon color="primary" sx={{ mt: { xs: 0, sm: 0.25 } }} aria-hidden />
                     <Box sx={{ textAlign: { xs: "center", sm: "left" } }}>
                       <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
-                        Seating location
+                        {tableLabel}
                       </Typography>
                       <Typography
                         variant="h6"
@@ -463,7 +464,7 @@ export default function Home() {
                         fontWeight={700}
                         sx={{ lineHeight: 1.35, fontSize: { xs: "1.35rem", sm: undefined } }}
                       >
-                        {resolvedPerson.seatingLocation}
+                        {formatGuestTable(resolvedPerson.tableNumber)}
                       </Typography>
                     </Box>
                   </Stack>
@@ -471,30 +472,9 @@ export default function Home() {
               </Card>
             </motion.div>
 
-            {(resolvedPerson.department ||
-              resolvedPerson.role ||
-              resolvedPerson.title) && (
-              <motion.div variants={drawerItemVariants}>
-                <Typography variant="body2" color="text.secondary" sx={{ pt: 0.5, textAlign: "center" }}>
-                  {[resolvedPerson.department, resolvedPerson.role ?? resolvedPerson.title]
-                    .filter(Boolean)
-                    .join(" · ")}
-                </Typography>
-              </motion.div>
-            )}
           </motion.div>
         )}
       </SwipeableDrawer>
-
-      <Typography variant="body2" textAlign="center" sx={{ pt: 0.5 }}>
-        <Link component={RouterLink} to="/about" underline="hover">
-          About
-        </Link>
-        {" · "}
-        <Link component={RouterLink} to="/info" underline="hover">
-          Info
-        </Link>
-      </Typography>
     </Stack>
   );
 }

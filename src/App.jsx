@@ -5,6 +5,13 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import HelpOutlineRoundedIcon from "@mui/icons-material/HelpOutlineRounded";
 import FloatingGlowBackground from "./components/FloatingGlowBackground.jsx";
+import {
+  appTagline,
+  coupleNames,
+  navAbout,
+  navFindSeat,
+  navHelp,
+} from "./content/wedding.js";
 import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import Info from "./pages/Info.jsx";
@@ -21,10 +28,11 @@ function MobileLayout() {
       sx={{
         position: "relative",
         width: "100%",
-        minHeight: "100vh",
-        "@supports (min-height: 100dvh)": {
-          minHeight: "100dvh",
+        height: "100vh",
+        "@supports (height: 100dvh)": {
+          height: "100dvh",
         },
+        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         bgcolor: "transparent",
@@ -58,10 +66,10 @@ function MobileLayout() {
           }}
         >
           <Typography variant="h6" component="h1" fontWeight={700}>
-            Seating
+            {coupleNames}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            GitHub Pages test app
+            {appTagline}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -76,7 +84,8 @@ function MobileLayout() {
           minHeight: 0,
           overflow: "auto",
           px: 2,
-          py: 1.5,
+          pt: 1.5,
+          pb: "calc(56px + max(8px, env(safe-area-inset-bottom)) + 12px)",
           bgcolor: "transparent",
         }}
       >
@@ -96,10 +105,12 @@ function MobileLayout() {
         value={value}
         onChange={(_, newValue) => navigate(navPaths[newValue])}
         sx={{
-          position: "relative",
-          zIndex: 1,
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 2,
           width: "100%",
-          flexShrink: 0,
           borderTop: 1,
           borderColor: "divider",
           bgcolor: (theme) => alpha(theme.palette.background.paper, 0.88),
@@ -108,9 +119,9 @@ function MobileLayout() {
           pb: "max(8px, env(safe-area-inset-bottom))",
         }}
       >
-        <BottomNavigationAction label="Home" icon={<HomeRoundedIcon />} />
-        <BottomNavigationAction label="About" icon={<InfoOutlinedIcon />} />
-        <BottomNavigationAction label="Info" icon={<HelpOutlineRoundedIcon />} />
+        <BottomNavigationAction label={navFindSeat} icon={<HomeRoundedIcon />} />
+        <BottomNavigationAction label={navAbout} icon={<InfoOutlinedIcon />} />
+        <BottomNavigationAction label={navHelp} icon={<HelpOutlineRoundedIcon />} />
       </BottomNavigation>
     </Box>
   );
