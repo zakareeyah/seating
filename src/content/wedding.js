@@ -31,6 +31,14 @@ export const aboutTitle = "About our day";
 export const aboutLead = `We're celebrating the wedding of ${coupleNames}.`;
 export const aboutBody = `On ${weddingDate}, we're bringing family and friends together for our special day. This app helps every guest find their table quickly — so you can spend less time searching and more time with the people you love. Thank you for being part of it.`;
 
+export const aboutShareTitle = "Share";
+export const aboutShareBody =
+  "Scan the code or copy the link to share this page with family and friends.";
+export const aboutShareCopyButton = "Copy link";
+export const aboutShareCopied = "Link copied to clipboard.";
+export const aboutShareGenericNote =
+  "This link opens the site without guest-list access. Use your personalized invitation link to share full access.";
+
 export const helpTitle = "Help";
 export const helpHowTitle = "How to find your seat";
 export const helpHowBody =

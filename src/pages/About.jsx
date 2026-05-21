@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
+import ShareSection from "../components/ShareSection.jsx";
 import {
   aboutBody,
   aboutLead,
@@ -16,12 +17,16 @@ export default function About() {
       <Typography variant="overline" color="text.secondary" display="block" gutterBottom>
         {coupleNames} · {weddingDate}
       </Typography>
-      <Typography variant="body1" color="text.secondary" paragraph sx={{ mt: 2 }}>
-        {aboutLead}
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        {aboutBody}
-      </Typography>
+      <Stack spacing={2.5} sx={{ mt: 2, textAlign: "left" }}>
+        <Typography variant="body1" color="text.secondary">
+          {aboutLead}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {aboutBody}
+        </Typography>
+        <Divider />
+        <ShareSection />
+      </Stack>
     </Box>
   );
 }
