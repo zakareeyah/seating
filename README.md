@@ -1,6 +1,6 @@
-# Fayaaz & Ayisha · Seating
+# Fayaaz & Ayesha · Seating
 
-Wedding guest seating lookup for **Fayaaz and Ayisha** (19 July 2026). Guests search by name to find their table assignment.
+Wedding guest seating lookup for **Fayaaz and Ayesha** (19 July 2026). Guests search by name to find their table assignment.
 
 Built with **React** (Vite), **Material UI**, a **fullscreen mobile-first** shell (app bar, scrollable body, bottom tabs), **HashRouter** navigation, and deployment to **GitHub Pages** via GitHub Actions.
 
