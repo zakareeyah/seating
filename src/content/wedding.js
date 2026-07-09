@@ -9,7 +9,7 @@ export const heroSubtitle =
   "Enter your name below.";
 
 export const searchLabel = "Your name";
-export const searchPlaceholder = "e.g. Feroza Gangat";
+export const searchPlaceholder = "Search name";
 
 export const noMatches =
   "We couldn't find that name on the guest list. Check the spelling, or ask a member of the wedding party for help.";
