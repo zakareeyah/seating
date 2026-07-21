@@ -32,6 +32,7 @@
       --accent-dark: #8b3d48;
       --secondary: #c9a393;
       --tertiary: #7d5d52;
+      --gold: #d4af37;
       --border: rgba(166, 77, 90, 0.25);
       --border-light: rgba(166, 77, 90, 0.12);
       --shadow: rgba(0, 0, 0, 0.8);
@@ -87,7 +88,7 @@
     header::after {
       content: '✦';
       display: block;
-      color: var(--accent-light);
+      color: var(--gold);
       font-size: 1.2rem;
       margin: 12px 0;
       letter-spacing: 8px;
@@ -96,7 +97,7 @@
     h1{ 
       margin:0; 
       font-size:2.4rem; 
-      color:var(--accent-light);
+      color: var(--gold);
       font-family: var(--font-serif);
       font-weight: 400;
       letter-spacing: 1px;
@@ -150,6 +151,7 @@
       margin-bottom: 16px;
       font-weight: 600;
       font-family: var(--font-serif);
+      line-height: 1.6;
     }
     
     input[type="text"], input[type="search"], textarea{
@@ -349,13 +351,13 @@
   </header>
 
   <main class="card">
-    <label class="label">Guest Lookup</label>
+    <label class="label">Please search your name and find your table number</label>
     <input id="guest" type="text" placeholder="Enter your full name" autocomplete="name" />
     <div class="controls">
       <button id="submit">Find My Seat</button>
       <div id="result"></div>
     </div>
-    <p class="help-text small">Please search your name and find your table number. If you don't find your name, please find Aisha for assistance.</p>
+    <p class="help-text small">If you don't find your name, please find Aisha for assistance.</p>
   </main>
 
   <script>
