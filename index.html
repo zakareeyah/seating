@@ -8,13 +8,6 @@
   <meta name="description" content="Find your table at Zakareeyah and Sana's Walimah." />
   <title>Zakareeyah &amp; Sana — Walimah</title>
 
-  <!-- favicons (relative paths for GitHub Pages) -->
-  <link rel="icon" href="favicon.ico" sizes="any" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-  <link rel="manifest" href="site.webmanifest" />
-
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -115,11 +108,14 @@
   </main>
 
   <script>
-    // Minimal guest lookup example. Replace PRESET or implement CSV upload as needed.
+    // Guest list - Update with your actual guest data
     const PRESET = [
       { name: 'John Smith', seat: 'A1' },
       { name: 'Jane Smith', seat: 'A2' },
-      { name: 'Alice Brown', seat: 'B1' }
+      { name: 'Alice Brown', seat: 'B1' },
+      { name: 'Bob Johnson', seat: 'B2' },
+      { name: 'Carol Davis', seat: 'C1' },
+      { name: 'David Lee', seat: 'C2' }
     ];
 
     const guestEl = document.getElementById('guest');
@@ -144,6 +140,10 @@
         resultEl.innerHTML = `No seat found for <strong>${escapeHtml(name)}</strong>. Check spelling or upload the CSV.`;
       }
       guestEl.value = '';
+    });
+
+    guestEl.addEventListener('keypress', (e) => {
+      if(e.key === 'Enter') submitBtn.click();
     });
   </script>
 </body>
