@@ -172,7 +172,7 @@
 
   <script>
     const PRESET = [
-      { name: 'Zakareeyah', seat: 'Table 1 (upper ground floor)' },
+      { name: 'Zakareeyah M.', seat: 'Table 1 (upper ground floor)' },
       { name: 'John Smith', seat: 'A1' },
       { name: 'Jane Smith', seat: 'A2' },
       { name: 'Alice Brown', seat: 'B1' },
@@ -225,24 +225,29 @@
         );
       });
 
-      // ⭐ EXACTLY ONE MATCH → SHOW RESULT ONLY
+      // ⭐ EXACTLY ONE MATCH → SHOW RESULT ONLY (if name is unique)
       if(matches.length === 1){
         const m = matches[0];
-        suggestionsEl.innerHTML = '';
-        resultEl.innerHTML =
-          `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — your table is <span class="badge">${escapeHtml(m.seat)}</span></span>`;
-        return;
+
+        const duplicates = PRESET.filter(p => p.name.toLowerCase() === m.name.toLowerCase());
+
+        if(duplicates.length === 1){
+          suggestionsEl.innerHTML = '';
+          resultEl.innerHTML =
+            `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — your table is <span class="badge">${escapeHtml(m.seat.toUpperCase())}</span></span>`;
+          return;
+        }
       }
 
-      // ⭐ MULTIPLE MATCHES → SHOW SUGGESTIONS ONLY
+      // ⭐ MULTIPLE MATCHES OR DUPLICATE NAMES → SHOW SUGGESTIONS ONLY
       matches.forEach(m => {
         const li = document.createElement('li');
-        li.textContent = m.name;
+        li.innerHTML = `${escapeHtml(m.name)} — ${escapeHtml(m.seat)}`; // clean text
         li.addEventListener('click', () => {
           guestEl.value = m.name;
           suggestionsEl.innerHTML = '';
           resultEl.innerHTML =
-            `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — your table is <span class="badge">${escapeHtml(m.seat)}</span></span>`;
+            `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — your table is <span class="badge">${escapeHtml(m.seat.toUpperCase())}</span></span>`;
         });
         suggestionsEl.appendChild(li);
       });
@@ -255,4 +260,3 @@
 
 </body>
 </html>
-
