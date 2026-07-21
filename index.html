@@ -33,17 +33,21 @@
       --font-body: "Lora", serif;
     }
 
+    *{
+      box-sizing:border-box;
+    }
+
     body{
       margin:0;
       background:var(--bg);
       color:var(--title);
       font-family:var(--font-body);
-      padding:40px 28px;
+      padding:40px 20px;
     }
 
     header{
       text-align:center;
-      padding:50px 30px 30px;
+      padding:40px 20px 24px;
       background:rgba(240,230,210,0.05);
       border:1px solid rgba(240,230,210,0.15);
       border-bottom:none;
@@ -51,14 +55,14 @@
 
     h1{
       margin:0;
-      font-size:2.6rem;
+      font-size:2.2rem;
       color:var(--title);
       font-family:var(--font-serif);
       text-transform:uppercase;
     }
 
     .subtitle{
-      margin:0;
+      margin:8px 0 0 0;
       color:var(--title);
       font-size:1rem;
       font-family:var(--font-serif);
@@ -67,19 +71,21 @@
     .card{
       background:var(--card);
       border:1px solid rgba(166,77,90,0.25);
-      padding:50px;
+      padding:32px 24px 40px;
       max-width:600px;
-      margin:0 auto;
+      margin:24px auto 0 auto;
       color:var(--title);
-      text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center; /* ⭐ center contents */
     }
 
-    /* ⭐ NEW: wrapper to ensure perfect centering */
     .input-wrapper{
+      width:100%;
+      max-width:420px;   /* ⭐ shared width for label, input, suggestions */
       display:flex;
       flex-direction:column;
       align-items:center;
-      width:100%;
     }
 
     .label{
@@ -87,19 +93,18 @@
       font-size:0.9rem;
       letter-spacing:1px;
       color:var(--title);
-      margin:0 auto 24px auto;
-      padding-bottom:16px;
+      margin:0 0 20px 0;
+      padding-bottom:12px;
       border-bottom:1px solid var(--border-light);
       text-transform:none;
-      max-width:420px;
+      width:100%;
+      text-align:center;
       font-family:var(--font-serif);
     }
 
     input[type="text"]{
       width:100%;
-      max-width:420px;
-      margin:0 auto;
-      padding:14px 18px;
+      padding:12px 16px;
       border:1px solid rgba(166,77,90,0.25);
       background:rgba(20,10,14,0.5);
       color:var(--title);
@@ -117,9 +122,9 @@
     input[type="text"]:focus{
       border-color:var(--accent-light);
       background:rgba(20,10,14,0.7);
+      outline:none;
     }
 
-    /* ⭐ FIXED: suggestions now naturally flow under input */
     .suggestions{
       list-style:none;
       margin:10px 0 0 0;
@@ -128,13 +133,12 @@
       border:1px solid var(--border-light);
       max-height:220px;
       overflow-y:auto;
-      width:100%;
-      max-width:420px;
+      width:100%;        /* ⭐ same width as input */
       color:var(--title);
     }
 
     .suggestions li{
-      padding:14px 18px;
+      padding:12px 16px;
       cursor:pointer;
       color:var(--title);
       border-bottom:1px solid var(--border-light);
@@ -149,16 +153,26 @@
       margin-top:20px;
       display:block;
       color:var(--title);
-      font-size:1.1rem;
+      font-size:1.05rem;
       font-family:var(--font-serif);
+      text-align:center;
     }
 
     .help-text{
-      margin-top:30px;
+      margin-top:24px;
       font-size:0.75rem;
       font-style:italic;
       text-align:center;
       font-family:var(--font-serif);
+    }
+
+    @media (max-width:480px){
+      h1{
+        font-size:1.8rem;
+      }
+      .card{
+        padding:24px 18px 32px;
+      }
     }
   </style>
 </head>
@@ -245,7 +259,7 @@
         if(duplicates.length === 1){
           suggestionsEl.innerHTML = '';
           resultEl.innerHTML =
-            `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — your table is ${escapeHtml(m.seat.toUpperCase())}</span>`;
+            `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — you're on ${escapeHtml(m.seat.toUpperCase())}</span>`;
           return;
         }
       }
@@ -257,7 +271,7 @@
           guestEl.value = m.name;
           suggestionsEl.innerHTML = '';
           resultEl.innerHTML =
-            `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — your table is ${escapeHtml(m.seat.toUpperCase())}</span>`;
+            `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — you're on ${escapeHtml(m.seat.toUpperCase())}</span>`;
         });
         suggestionsEl.appendChild(li);
       });
@@ -270,4 +284,3 @@
 
 </body>
 </html>
-
