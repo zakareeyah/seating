@@ -60,7 +60,8 @@
     .subtitle{
       margin:0;
       color:var(--title);
-      font-size:0.95rem;
+      font-size:1rem;
+      font-family:var(--font-serif);
     }
 
     .card{
@@ -71,30 +72,39 @@
       margin:0 auto;
       color:var(--title);
       position:relative;
-      text-align:center; /* ⭐ center contents */
+      text-align:center;
     }
 
     .label{
       display:block;
-      font-size:0.8rem;
-      letter-spacing:1.5px;
+      font-size:0.9rem;
+      letter-spacing:1px;
       color:var(--title);
       margin:0 auto 24px auto;
       padding-bottom:16px;
       border-bottom:1px solid var(--border-light);
       text-transform:none;
-      max-width:420px; /* ⭐ center underline */
+      max-width:420px;
+      font-family:var(--font-serif); /* ⭐ MATCHES SUBTITLE FONT */
     }
 
     input[type="text"]{
       width:100%;
-      max-width:420px; /* ⭐ center input */
-      margin:0 auto;   /* ⭐ center input */
-      padding:16px 20px;
+      max-width:420px;
+      margin:0 auto;
+      padding:14px 18px;
       border:1px solid rgba(166,77,90,0.25);
       background:rgba(20,10,14,0.5);
       color:var(--title);
-      font-size:1rem;
+      font-size:0.9rem;
+      font-style:italic;
+      font-family:var(--font-serif);
+    }
+
+    input[type="text"]::placeholder{
+      color:rgba(240,230,210,0.7);
+      font-style:italic;
+      font-size:0.9rem;
     }
 
     input[type="text"]:focus{
@@ -104,7 +114,7 @@
 
     .suggestions{
       list-style:none;
-      margin:10px auto 0 auto; /* ⭐ center suggestions under input */
+      margin:10px auto 0 auto;
       padding:0;
       background:rgba(20,10,14,0.85);
       border:1px solid var(--border-light);
@@ -112,9 +122,9 @@
       overflow-y:auto;
       position:absolute;
       left:50%;
-      transform:translateX(-50%); /* ⭐ center absolute element */
+      transform:translateX(-50%);
       width:100%;
-      max-width:420px; /* ⭐ match input width */
+      max-width:420px;
       z-index:10;
       color:var(--title);
     }
@@ -124,21 +134,11 @@
       cursor:pointer;
       color:var(--title);
       border-bottom:1px solid var(--border-light);
+      font-family:var(--font-serif);
     }
 
     .suggestions li:hover{
       background:rgba(166,77,90,0.25);
-    }
-
-    @media (max-width:720px){
-      .suggestions li{
-        padding:20px;
-        font-size:1rem;
-      }
-      .suggestions{
-        max-height:260px;
-        margin-top:12px;
-      }
     }
 
     .result-text{
@@ -146,6 +146,15 @@
       display:block;
       color:var(--title);
       font-size:1.1rem;
+      font-family:var(--font-serif);
+    }
+
+    .help-text{
+      margin-top:30px;
+      font-size:0.75rem;
+      font-style:italic;
+      text-align:center;
+      font-family:var(--font-serif);
     }
   </style>
 </head>
@@ -153,18 +162,18 @@
 <body>
   <header>
     <h1>Welcome to Zakareeyah & Sana's Walimah</h1>
-    <p class="subtitle">Thank you for coming! Let's help you get seated.</p>
+    <p class="subtitle">Let's help you get seated.</p>
   </header>
 
   <main class="card">
-    <label class="label">Please search your name and find your table number</label>
+    <label class="label">Enter your name below to find your table number</label>
 
-    <input id="guest" type="text" placeholder="Enter your name" autocomplete="name" />
+    <input id="guest" type="text" placeholder="Enter your name…" autocomplete="name" />
     <ul id="suggestions" class="suggestions"></ul>
 
     <div id="result"></div>
 
-    <p class="help-text small">If you're unable to find your name, please locate Aisha, Zinneerah or Zumzum for assistance, thank you.</p>
+    <p class="help-text small">*If you're unable to find your name, please locate Aisha, Zinneerah or Zumzum for assistance, thank you.*</p>
   </main>
 
   <script>
@@ -254,3 +263,4 @@
 
 </body>
 </html>
+
