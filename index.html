@@ -22,12 +22,10 @@
 
   <style>
     :root{
-      /* ⭐ Slightly more maroon/red tint added */
       --bg: linear-gradient(155deg, #150608 0%, #2a0f12 25%, #1c0a0e 50%, #2a0f12 75%, #150608 100%);
       --card: linear-gradient(135deg, rgba(40, 18, 22, 0.95), rgba(25, 10, 14, 0.95));
 
       --title: #F0E6D2;
-      --gold: var(--title);
       --accent: #a64d5a;
       --accent-light: #c45f6d;
       --border-light: rgba(166, 77, 90, 0.12);
@@ -73,6 +71,7 @@
       margin:0 auto;
       color:var(--title);
       position:relative;
+      text-align:center; /* ⭐ center contents */
     }
 
     .label{
@@ -80,14 +79,17 @@
       font-size:0.8rem;
       letter-spacing:1.5px;
       color:var(--title);
-      margin-bottom:24px;
+      margin:0 auto 24px auto;
       padding-bottom:16px;
       border-bottom:1px solid var(--border-light);
-      text-transform:none; /* no capitals */
+      text-transform:none;
+      max-width:420px; /* ⭐ center underline */
     }
 
     input[type="text"]{
       width:100%;
+      max-width:420px; /* ⭐ center input */
+      margin:0 auto;   /* ⭐ center input */
       padding:16px 20px;
       border:1px solid rgba(166,77,90,0.25);
       background:rgba(20,10,14,0.5);
@@ -100,17 +102,19 @@
       background:rgba(20,10,14,0.7);
     }
 
-    /* Suggestions */
     .suggestions{
       list-style:none;
-      margin:10px 0 0 0;
+      margin:10px auto 0 auto; /* ⭐ center suggestions under input */
       padding:0;
       background:rgba(20,10,14,0.85);
       border:1px solid var(--border-light);
       max-height:220px;
       overflow-y:auto;
       position:absolute;
+      left:50%;
+      transform:translateX(-50%); /* ⭐ center absolute element */
       width:100%;
+      max-width:420px; /* ⭐ match input width */
       z-index:10;
       color:var(--title);
     }
@@ -218,10 +222,8 @@
         );
       });
 
-      // ⭐ EXACTLY ONE MATCH → SHOW RESULT ONLY (if name is unique)
       if(matches.length === 1){
         const m = matches[0];
-
         const duplicates = PRESET.filter(p => p.name.toLowerCase() === m.name.toLowerCase());
 
         if(duplicates.length === 1){
@@ -232,7 +234,6 @@
         }
       }
 
-      // ⭐ MULTIPLE MATCHES OR DUPLICATE NAMES → SHOW SUGGESTIONS ONLY
       matches.forEach(m => {
         const li = document.createElement('li');
         li.innerHTML = `${escapeHtml(m.name)} — ${escapeHtml(m.seat)}`;
