@@ -71,8 +71,15 @@
       max-width:600px;
       margin:0 auto;
       color:var(--title);
-      position:relative;
       text-align:center;
+    }
+
+    /* ⭐ NEW: wrapper to ensure perfect centering */
+    .input-wrapper{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      width:100%;
     }
 
     .label{
@@ -85,7 +92,7 @@
       border-bottom:1px solid var(--border-light);
       text-transform:none;
       max-width:420px;
-      font-family:var(--font-serif); /* ⭐ MATCHES SUBTITLE FONT */
+      font-family:var(--font-serif);
     }
 
     input[type="text"]{
@@ -112,20 +119,17 @@
       background:rgba(20,10,14,0.7);
     }
 
+    /* ⭐ FIXED: suggestions now naturally flow under input */
     .suggestions{
       list-style:none;
-      margin:10px auto 0 auto;
+      margin:10px 0 0 0;
       padding:0;
       background:rgba(20,10,14,0.85);
       border:1px solid var(--border-light);
       max-height:220px;
       overflow-y:auto;
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
       width:100%;
       max-width:420px;
-      z-index:10;
       color:var(--title);
     }
 
@@ -166,10 +170,13 @@
   </header>
 
   <main class="card">
-    <label class="label">Enter your name below to find your table number</label>
 
-    <input id="guest" type="text" placeholder="Enter your name…" autocomplete="name" />
-    <ul id="suggestions" class="suggestions"></ul>
+    <div class="input-wrapper">
+      <label class="label">Enter your name below to find your table number</label>
+
+      <input id="guest" type="text" placeholder="Enter your name…" autocomplete="name" />
+      <ul id="suggestions" class="suggestions"></ul>
+    </div>
 
     <div id="result"></div>
 
