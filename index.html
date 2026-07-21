@@ -95,13 +95,14 @@
     
     h1{ 
       margin:0; 
-      font-size:3.2rem; 
+      font-size:2.4rem; 
       color:var(--accent-light);
       font-family: var(--font-serif);
       font-weight: 400;
-      letter-spacing: 2px;
+      letter-spacing: 1px;
       text-transform: uppercase;
       animation: fadeInDown 1s ease-out;
+      line-height: 1.4;
     }
     
     .subtitle{ 
@@ -326,7 +327,7 @@
         padding: 24px 16px;
       }
       h1 {
-        font-size: 2rem;
+        font-size: 1.6rem;
       }
       .card{ 
         padding: 32px 24px;
@@ -344,8 +345,7 @@
 </head>
 <body>
   <header>
-    <h1>Zakareeyah &amp; Sana</h1>
-    <p class="subtitle">Find your seat for the Walimah</p>
+    <h1>Welcome to Zakareeyah &amp; Sana's Walimah</h1>
   </header>
 
   <main class="card">
@@ -355,7 +355,7 @@
       <button id="submit">Find My Seat</button>
       <div id="result"></div>
     </div>
-    <p class="help-text small">Enter your name to discover your seating arrangement. If you don't find your name, please contact us for assistance.</p>
+    <p class="help-text small">Please search your name and find your table number. If you don't find your name, please find Aisha for assistance.</p>
   </main>
 
   <script>
@@ -389,9 +389,9 @@
       }
       const found = findSeat(name);
       if(found){
-        resultEl.innerHTML = `<span class="result-text">Welcome <strong>${escapeHtml(found.name)}</strong> — your seat is <span class="badge">${escapeHtml(found.seat)}</span></span>`;
+        resultEl.innerHTML = `<span class="result-text">Welcome <strong>${escapeHtml(found.name)}</strong> — your table is <span class="badge">${escapeHtml(found.seat)}</span></span>`;
       } else {
-        resultEl.innerHTML = `<span class="small result-text">No seat found for <strong>${escapeHtml(name)}</strong>. Check the spelling or contact us.</span>`;
+        resultEl.innerHTML = `<span class="small result-text">No seat found for <strong>${escapeHtml(name)}</strong>. Please find Aisha for assistance.</span>`;
       }
       guestEl.value = '';
     });
