@@ -22,17 +22,17 @@
 
   <style>
     :root{
-      --bg: linear-gradient(135deg, #1a0f12 0%, #2d1820 50%, #1f0f14 100%);
-      --card: linear-gradient(135deg, rgba(45, 24, 32, 0.9), rgba(31, 15, 20, 0.9));
+      --bg: linear-gradient(155deg, #0d0608 0%, #1a0f12 25%, #140a0e 50%, #1a0f12 75%, #0d0608 100%);
+      --card: linear-gradient(135deg, rgba(32, 18, 22, 0.95), rgba(20, 10, 14, 0.95));
       --text: #f5e8e3;
-      --text-dark: #1a0f12;
+      --text-dark: #0d0608;
       --muted: #d4b5aa;
       --accent: #a64d5a;
       --accent-light: #c45f6d;
       --accent-dark: #8b3d48;
       --secondary: #c9a393;
       --tertiary: #7d5d52;
-      --gold: #d4af37;
+      --title: #E6C8BB;
       --border: rgba(166, 77, 90, 0.25);
       --border-light: rgba(166, 77, 90, 0.12);
       --shadow: rgba(0, 0, 0, 0.8);
@@ -65,8 +65,9 @@
       right: 0;
       bottom: 0;
       background: 
-        radial-gradient(circle at 20% 50%, rgba(166, 77, 90, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(125, 93, 82, 0.06) 0%, transparent 50%);
+        radial-gradient(ellipse 800px 600px at 30% 40%, rgba(166, 77, 90, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 600px 800px at 70% 60%, rgba(125, 93, 82, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 400px 400px at 50% 20%, rgba(230, 200, 187, 0.03) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
@@ -80,7 +81,7 @@
       text-align:center; 
       margin-bottom:48px;
       padding: 40px 0;
-      border-bottom: 2px solid var(--border);
+      border-bottom: 1px solid var(--border);
       position: relative;
     }
     
@@ -88,16 +89,17 @@
     header::after {
       content: '✦';
       display: block;
-      color: var(--gold);
+      color: var(--title);
       font-size: 1.2rem;
       margin: 12px 0;
       letter-spacing: 8px;
+      opacity: 0.8;
     }
     
     h1{ 
       margin:0; 
       font-size:2.4rem; 
-      color: var(--gold);
+      color: var(--title);
       font-family: var(--font-serif);
       font-weight: 400;
       letter-spacing: 1px;
@@ -159,7 +161,7 @@
       padding: 16px 20px;
       border-radius: 0;
       border: 1px solid var(--border);
-      background: rgba(31, 15, 20, 0.5);
+      background: rgba(20, 10, 14, 0.5);
       color:var(--text);
       outline:none;
       font-family: var(--font-body);
@@ -171,7 +173,7 @@
     input[type="search"]:focus, 
     textarea:focus {
       border-color: var(--accent-light);
-      background: rgba(31, 15, 20, 0.7);
+      background: rgba(20, 10, 14, 0.7);
       box-shadow: 0 0 20px var(--shadow-light), inset 0 0 10px rgba(166, 77, 90, 0.08);
     }
     
