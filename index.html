@@ -22,18 +22,20 @@
 
   <style>
     :root{
-      --bg: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #0f0f1e 100%);
-      --card: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(15, 15, 30, 0.8));
-      --text: #f5f1e8;
-      --text-dark: #0a0e27;
-      --muted: #c9b8a8;
-      --accent: #d4af37;
-      --accent-light: #e8c547;
-      --secondary: #8b7355;
-      --border: rgba(212, 175, 55, 0.2);
-      --border-light: rgba(212, 175, 55, 0.1);
+      --bg: linear-gradient(135deg, #1a0f12 0%, #2d1820 50%, #1f0f14 100%);
+      --card: linear-gradient(135deg, rgba(45, 24, 32, 0.9), rgba(31, 15, 20, 0.9));
+      --text: #f5e8e3;
+      --text-dark: #1a0f12;
+      --muted: #d4b5aa;
+      --accent: #a64d5a;
+      --accent-light: #c45f6d;
+      --accent-dark: #8b3d48;
+      --secondary: #c9a393;
+      --tertiary: #7d5d52;
+      --border: rgba(166, 77, 90, 0.25);
+      --border-light: rgba(166, 77, 90, 0.12);
       --shadow: rgba(0, 0, 0, 0.8);
-      --shadow-light: rgba(212, 175, 55, 0.15);
+      --shadow-light: rgba(166, 77, 90, 0.2);
       --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
       --font-body: "Lora", Georgia, serif;
     }
@@ -62,8 +64,8 @@
       right: 0;
       bottom: 0;
       background: 
-        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(139, 115, 85, 0.05) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(166, 77, 90, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(125, 93, 82, 0.06) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
@@ -85,7 +87,7 @@
     header::after {
       content: '✦';
       display: block;
-      color: var(--accent);
+      color: var(--accent-light);
       font-size: 1.2rem;
       margin: 12px 0;
       letter-spacing: 8px;
@@ -94,7 +96,7 @@
     h1{ 
       margin:0; 
       font-size:3.2rem; 
-      color:var(--accent);
+      color:var(--accent-light);
       font-family: var(--font-serif);
       font-weight: 400;
       letter-spacing: 2px;
@@ -118,7 +120,7 @@
       border-radius: 2px;
       box-shadow: 
         0 20px 60px var(--shadow),
-        inset 0 1px 0 rgba(212, 175, 55, 0.1);
+        inset 0 1px 0 rgba(166, 77, 90, 0.15);
       max-width: 600px;
       margin: 0 auto;
       backdrop-filter: blur(10px);
@@ -143,7 +145,7 @@
       font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: var(--accent);
+      color: var(--accent-light);
       margin-bottom: 16px;
       font-weight: 600;
       font-family: var(--font-serif);
@@ -154,7 +156,7 @@
       padding: 16px 20px;
       border-radius: 0;
       border: 1px solid var(--border);
-      background: rgba(15, 15, 30, 0.4);
+      background: rgba(31, 15, 20, 0.5);
       color:var(--text);
       outline:none;
       font-family: var(--font-body);
@@ -165,13 +167,13 @@
     input[type="text"]:focus, 
     input[type="search"]:focus, 
     textarea:focus {
-      border-color: var(--accent);
-      background: rgba(15, 15, 30, 0.6);
-      box-shadow: 0 0 20px var(--shadow-light), inset 0 0 10px rgba(212, 175, 55, 0.05);
+      border-color: var(--accent-light);
+      background: rgba(31, 15, 20, 0.7);
+      box-shadow: 0 0 20px var(--shadow-light), inset 0 0 10px rgba(166, 77, 90, 0.08);
     }
     
     input::placeholder, textarea::placeholder{ 
-      color: rgba(197, 184, 168, 0.6);
+      color: rgba(212, 181, 170, 0.6);
     }
     
     button{
@@ -187,7 +189,7 @@
       letter-spacing: 1px;
       text-transform: uppercase;
       transition: all 0.3s ease;
-      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 8px 24px rgba(166, 77, 90, 0.25);
       position: relative;
       overflow: hidden;
     }
@@ -207,7 +209,7 @@
     
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.35);
+      box-shadow: 0 12px 32px rgba(166, 77, 90, 0.4);
     }
     
     button:active {
@@ -247,14 +249,14 @@
       display: inline-block;
       padding: 8px 16px;
       border-radius: 0;
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
       color: var(--text-dark);
       font-weight: 700;
       font-family: var(--font-serif);
       text-transform: uppercase;
       letter-spacing: 1px;
       font-size: 0.9rem;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+      box-shadow: 0 4px 12px rgba(166, 77, 90, 0.35);
       animation: slideIn 0.4s ease-out;
     }
     
