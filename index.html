@@ -1,11 +1,12 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#111111" />
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
-  <title>Zakareeyah and Sana's Walimah</title>
+  <meta name="description" content="Find your table at Zakareeyah and Sana's Walimah." />
+  <title>Zakareeyah &amp; Sana — Walimah</title>
 
   <!-- favicons (relative paths for GitHub Pages) -->
   <link rel="icon" href="favicon.ico" sizes="any" />
@@ -17,19 +18,133 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --bg: #000000;
+      --card: #0b0b0b;
+      --text: #ffffff;
+      --muted: #bfbfbf;
+      --accent: #c9a3c9;
+      --border: rgba(255,255,255,0.06);
+      --shadow: rgba(0,0,0,0.6);
+      --font-family: "Lora", "Playfair Display", Georgia, serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      min-height:100%;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font-family);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+    }
+    header{ text-align:center; margin-bottom:18px }
+    h1{ margin:0; font-size:1.8rem; color:var(--text) }
+    .subtitle{ margin-top:6px; color:var(--muted) }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid var(--border);
+      padding:16px;
+      border-radius:10px;
+      box-shadow: 0 6px 18px var(--shadow);
+      max-width:900px;
+      margin:0 auto 14px;
+    }
+    input[type="text"], input[type="search"], textarea{
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:transparent;
+      color:var(--text);
+      outline:none;
+    }
+    input::placeholder, textarea::placeholder{ color: rgba(255,255,255,0.45) }
+    button{
+      background:linear-gradient(180deg,var(--accent), #8f6b8f);
+      color:#fff;
+      border:0;
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .muted{ color:var(--muted) }
+    .small{ font-size:0.9rem; color:var(--muted) }
+    .badge{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:8px;
+      background:rgba(255,255,255,0.06);
+      color:var(--text);
+      font-weight:700;
+    }
+    label.file{
+      display:inline-block;
+      padding:8px 10px;
+      border-radius:8px;
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.04);
+      cursor:pointer;
+    }
+    @media (max-width:720px){
+      body{ padding:18px }
+      .card{ padding:12px }
+    }
+  </style>
 </head>
-    />
-    <meta
-      name="description"
-      content="Find your table at Zakareeyah and Sana's Walimah."
-    />
-    <title>Zakareeyah & Sana</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<body>
+  <header>
+    <h1>Zakareeyah &amp; Sana</h1>
+    <p class="subtitle">Find your seat for the Walimah</p>
+  </header>
+
+  <main class="card">
+    <div class="small muted">Guest lookup</div>
+    <input id="guest" type="text" placeholder="Enter your full name" autocomplete="name" />
+    <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+      <button id="submit">Submit</button>
+      <div id="result" style="margin-left:8px"></div>
+    </div>
+    <p class="small muted" style="margin-top:12px">This page uses a CSV you upload or a preset list to return seat numbers</p>
+  </main>
+
+  <script>
+    // Minimal guest lookup example. Replace PRESET or implement CSV upload as needed.
+    const PRESET = [
+      { name: 'John Smith', seat: 'A1' },
+      { name: 'Jane Smith', seat: 'A2' },
+      { name: 'Alice Brown', seat: 'B1' }
+    ];
+
+    const guestEl = document.getElementById('guest');
+    const submitBtn = document.getElementById('submit');
+    const resultEl = document.getElementById('result');
+
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    function findSeat(name){
+      const q = name.trim().toLowerCase();
+      if(!q) return null;
+      return PRESET.find(p => p.name.toLowerCase() === q) || null;
+    }
+
+    submitBtn.addEventListener('click', ()=>{
+      const name = guestEl.value.trim();
+      if(!name){ resultEl.innerHTML = '<span class="small muted">Please enter your name</span>'; return; }
+      const found = findSeat(name);
+      if(found){
+        resultEl.innerHTML = `Hello <strong>${escapeHtml(found.name)}</strong> — your seat is <span class="badge">${escapeHtml(found.seat)}</span>`;
+      } else {
+        resultEl.innerHTML = `No seat found for <strong>${escapeHtml(name)}</strong>. Check spelling or upload the CSV.`;
+      }
+      guestEl.value = '';
+    });
+  </script>
+</body>
 </html>
