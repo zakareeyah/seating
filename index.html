@@ -8,14 +8,12 @@
   <meta name="description" content="Find your table at Zakareeyah and Sana's Walimah." />
   <title>Zakareeyah & Sana — Walimah</title>
 
-  <!-- favicons -->
   <link rel="icon" href="favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <link rel="manifest" href="site.webmanifest" />
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -24,7 +22,6 @@
     :root{
       --bg: linear-gradient(155deg, #150608 0%, #2a0f12 25%, #1c0a0e 50%, #2a0f12 75%, #150608 100%);
       --card: linear-gradient(135deg, rgba(40, 18, 22, 0.95), rgba(25, 10, 14, 0.95));
-
       --title: #F0E6D2;
       --accent: #a64d5a;
       --accent-light: #c45f6d;
@@ -33,9 +30,7 @@
       --font-body: "Lora", serif;
     }
 
-    *{
-      box-sizing:border-box;
-    }
+    *{ box-sizing:border-box; }
 
     body{
       margin:0;
@@ -77,12 +72,12 @@
       color:var(--title);
       display:flex;
       flex-direction:column;
-      align-items:center; /* ⭐ center contents */
+      align-items:center;
     }
 
     .input-wrapper{
       width:100%;
-      max-width:420px;   /* ⭐ shared width for label, input, suggestions */
+      max-width:420px;
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -133,7 +128,7 @@
       border:1px solid var(--border-light);
       max-height:220px;
       overflow-y:auto;
-      width:100%;        /* ⭐ same width as input */
+      width:100%;
       color:var(--title);
     }
 
@@ -167,12 +162,8 @@
     }
 
     @media (max-width:480px){
-      h1{
-        font-size:1.8rem;
-      }
-      .card{
-        padding:24px 18px 32px;
-      }
+      h1{ font-size:1.8rem; }
+      .card{ padding:24px 18px 32px; }
     }
   </style>
 </head>
@@ -194,7 +185,7 @@
 
     <div id="result"></div>
 
-    <p class="help-text small">*If you're unable to find your name, please locate Aisha, Zinneerah or Zumzum for assistance, thank you.*</p>
+    <p class="help-text small">*If you're unable to find your name, please locate Zinneerah or Zumzum for assistance, thank you.*</p>
   </main>
 
   <script>
