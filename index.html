@@ -1,85 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Find your seat at Zakareeyah and Sana's Walimah</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#111111" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
+  <meta name="description" content="Find your table at Zakareeyah and Sana's Walimah." />
+
+<title>Find your seat at Zakareeyah and Sana's Walimah</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f7f3f3;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      color: #333;
+    :root{
+      --bg: linear-gradient(155deg, #150608 0%, #2a0f12 25%, #1c0a0e 50%, #2a0f12 75%, #150608 100%);
+      --card: linear-gradient(135deg, rgba(40, 18, 22, 0.95), rgba(25, 10, 14, 0.95));
+      --title: #F0E6D2;
+      --accent: #a64d5a;
+      --accent-light: #c45f6d;
+      --border-light: rgba(166, 77, 90, 0.12);
+      --font-serif: "Cormorant Garamond", serif;
+      --font-body: "Lora", serif;
     }
 
-    h1 {
-      margin-top: 40px;
-      font-size: 28px;
-      color: #7a1f1f;
-      font-weight: 700;
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--title);
+      font-family:var(--font-body);
+      padding:40px 20px;
     }
 
-    .search-box {
-      margin: 30px auto;
-      width: 90%;
-      max-width: 400px;
-      position: relative;
+    header{
+      text-align:center;
+      padding:40px 20px 24px;
+      background:rgba(240,230,210,0.05);
+      border:1px solid rgba(240,230,210,0.15);
+      border-bottom:none;
     }
 
-    input {
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      border: 2px solid #7a1f1f;
-      border-radius: 8px;
-      outline: none;
+    h1{
+      margin:0;
+      font-size:2.2rem;
+      color:var(--title);
+      font-family:var(--font-serif);
+      text-transform:uppercase;
     }
 
-    .autocomplete-list {
-      position: absolute;
-      width: 100%;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-top: 2px;
-      z-index: 10;
-      display: none;
-      max-height: 200px;
-      overflow-y: auto;
+    .subtitle{
+      margin:8px 0 0 0;
+      color:var(--title);
+      font-size:1rem;
+      font-family:var(--font-serif);
     }
 
-    .autocomplete-item {
-      padding: 10px;
-      cursor: pointer;
-      text-align: left;
+    .card{
+      background:var(--card);
+      border:1px solid rgba(166,77,90,0.25);
+      padding:32px 24px 40px;
+      max-width:600px;
+      margin:24px auto 0 auto;
+      color:var(--title);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
     }
 
-    .autocomplete-item:hover {
-      background: #f0e6e6;
+    .input-wrapper{
+      width:100%;
+      max-width:420px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
     }
 
-    .result {
-      margin-top: 40px;
-      font-size: 20px;
-      font-weight: 600;
-      color: #7a1f1f;
+    .label{
+      display:block;
+      font-size:0.9rem;
+      letter-spacing:1px;
+      color:var(--title);
+      margin:0 0 20px 0;
+      padding-bottom:12px;
+      border-bottom:1px solid var(--border-light);
+      text-transform:none;
+      width:100%;
+      text-align:center;
+      font-family:var(--font-serif);
+    }
+
+    input[type="text"]{
+      width:100%;
+      padding:12px 16px;
+      border:1px solid rgba(166,77,90,0.25);
+      background:rgba(20,10,14,0.5);
+      color:var(--title);
+      font-size:0.9rem;
+      font-style:italic;
+      font-family:var(--font-serif);
+    }
+
+    input[type="text"]::placeholder{
+      color:rgba(240,230,210,0.7);
+      font-style:italic;
+      font-size:0.9rem;
+    }
+
+    input[type="text"]:focus{
+      border-color:var(--accent-light);
+      background:rgba(20,10,14,0.7);
+      outline:none;
+    }
+
+    .suggestions{
+      list-style:none;
+      margin:10px 0 0 0;
+      padding:0;
+      background:rgba(20,10,14,0.85);
+      border:1px solid var(--border-light);
+      max-height:220px;
+      overflow-y:auto;
+      width:100%;
+      color:var(--title);
+    }
+
+    .suggestions li{
+      padding:12px 16px;
+      cursor:pointer;
+      color:var(--title);
+      border-bottom:1px solid var(--border-light);
+      font-family:var(--font-serif);
+    }
+
+    .suggestions li:hover{
+      background:rgba(166,77,90,0.25);
+    }
+
+    .result-text{
+      margin-top:20px;
+      display:block;
+      color:var(--title);
+      font-size:1.05rem;
+      font-family:var(--font-serif);
+      text-align:center;
+    }
+
+    .help-text{
+      margin-top:24px;
+      font-size:0.75rem;
+      font-style:italic;
+      text-align:center;
+      font-family:var(--font-serif);
+    }
+
+    @media (max-width:480px){
+      h1{ font-size:1.8rem; }
+      .card{ padding:24px 18px 32px; }
     }
   </style>
 </head>
 
 <body>
+  <header>
+    <h1>Welcome to Zakareeyah & Sana's Walimah</h1>
+    <p class="subtitle">Let's help you get seated.</p>
+  </header>
 
-  <h1>Find your seat at Zakareeyah & Sana’s Walimah</h1>
+  <main class="card">
 
-  <div class="search-box">
-    <input id="searchInput" type="text" placeholder="Enter your name..." autocomplete="off" />
-    <div id="autocompleteList" class="autocomplete-list"></div>
-  </div>
+    <div class="input-wrapper">
+      <label class="label">Enter your name below to find your table number</label>
 
-  <div id="result" class="result"></div>
+      <input id="guest" type="text" placeholder="Enter your name…" autocomplete="name" />
+      <ul id="suggestions" class="suggestions"></ul>
+    </div>
+
+    <div id="result"></div>
+
+    <p class="help-text small">*If you're unable to find your name, please locate Zinneerah or Zumzum for assistance, thank you.*</p>
+  </main>
 
   <script>
     const PRESET = [
@@ -250,81 +352,4 @@
       { name: 'Upjot', seat: 'Table 12 (Lower ground floor)' },
       { name: 'Rafay', seat: 'Table 12 (Lower ground floor)' },
       { name: 'Ed', seat: 'Table 12 (Lower ground floor)' },
-      { name: 'Sammy', seat: 'Table 12 (Lower ground floor)' },
-
-      /* ------------------------------
-         TABLE 13
-      ------------------------------ */
-      { name: 'Aslam', seat: 'Table 13 (Lower ground floor)' },
-      { name: 'Shamim', seat: 'Table 13 (Lower ground floor)' },
-      { name: 'Nargis', seat: 'Table 13 (Lower ground floor)' },
-      { name: 'Ajmal', seat: 'Table 13 (Lower ground floor)' },
-      { name: 'Zakariya', seat: 'Table 13 (Lower ground floor)' },
-      { name: 'Hawa', seat: 'Table 13 (Lower ground floor)' },
-
-      /* ------------------------------
-         TABLE 14
-      ------------------------------ */
-      { name: 'Abdullah', seat: 'Table 14 (Lower ground floor)' },
-      { name: 'Azad', seat: 'Table 14 (Lower ground floor)' },
-      { name: 'Meerab', seat: 'Table 14 (Lower ground floor)' },
-      { name: 'Uzair G', seat: 'Table 14 (Lower ground floor)' },
-      { name: 'Abraar G', seat: 'Table 14 (Lower ground floor)' },
-      { name: 'Mo G', seat: 'Table 14 (Lower ground floor)' },
-      { name: 'Umaimah', seat: 'Table 14 (Lower ground floor)' },
-      { name: 'Mohammed Dassu', seat: 'Table 14 (Lower ground floor)' },
-
-      /* ------------------------------
-         TABLE 15
-      ------------------------------ */
-      { name: 'Zaynul', seat: 'Table 15 (Lower ground floor)' },
-      { name: 'Adam', seat: 'Table 15 (Lower ground floor)' },
-      { name: 'Sana', seat: 'Table 15 (Lower ground floor)' },
-      { name: 'Zubeir', seat: 'Table 15 (Lower ground floor)' },
-      { name: 'Isaa', seat: 'Table 15 (Lower ground floor)' },
-      { name: 'Idrees', seat: 'Table 15 (Lower ground floor)' },
-      { name: 'Irfan', seat: 'Table 15 (Lower ground floor)' },
-      { name: 'Hamza', seat: 'Table 15 (Lower ground floor)' },
-
-      /* ------------------------------
-         TABLE 16
-      ------------------------------ */
-      { name: 'Hanif', seat: 'Table 16 (Lower ground floor)' },
-      { name: 'Yasmin Master', seat: 'Table 16 (Lower ground floor)' },
-      { name: 'Iqbal Master', seat: 'Table 16 (Lower ground floor)' },
-      { name: 'Hasan', seat: 'Table 16 (Lower ground floor)' },
-      { name: 'Amirah', seat: 'Table 16 (Lower ground floor)' },
-      { name: 'Dua', seat: 'Table 16 (Lower ground floor)' },
-      { name: 'Umar', seat: 'Table 16 (Lower ground floor)' }
-    ];
-
-    /* ------------------------------
-       AUTOCOMPLETE + SEARCH LOGIC
-    ------------------------------ */
-
-    const input = document.getElementById("searchInput");
-    const list = document.getElementById("autocompleteList");
-    const result = document.getElementById("result");
-
-    input.addEventListener("input", () => {
-      const value = input.value.toLowerCase();
-      list.innerHTML = "";
-
-      if (!value) {
-        list.style.display = "none";
-        return;
-      }
-
-      const matches = PRESET.filter(p => p.name.toLowerCase().includes(value));
-
-      if (matches.length === 0) {
-        list.style.display = "none";
-        return;
-      }
-
-      matches.forEach(m => {
-        const item = document.createElement("div");
-        item.className = "autocomplete-item";
-        item.textContent = m.name;
-        item.onclick = () => {
-          input.value = m.name
+      { name: 'Sammy', seat: 'Table 12 (Lower
