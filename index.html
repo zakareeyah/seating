@@ -1,273 +1,330 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#111111" />
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
-  <meta name="description" content="Find your table at Zakareeyah and Sana's Walimah." />
-<title>Find your seat at Zakareeyah and Sana's Walimah</title>
-  
-  <!-- Removed all favicon + apple-touch-icon + manifest lines -->
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find your seat at Zakareeyah and Sana's Walimah</title>
 
   <style>
-    :root{
-      --bg: linear-gradient(155deg, #150608 0%, #2a0f12 25%, #1c0a0e 50%, #2a0f12 75%, #150608 100%);
-      --card: linear-gradient(135deg, rgba(40, 18, 22, 0.95), rgba(25, 10, 14, 0.95));
-      --title: #F0E6D2;
-      --accent: #a64d5a;
-      --accent-light: #c45f6d;
-      --border-light: rgba(166, 77, 90, 0.12);
-      --font-serif: "Cormorant Garamond", serif;
-      --font-body: "Lora", serif;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f7f3f3;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #333;
     }
 
-    *{ box-sizing:border-box; }
-
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--title);
-      font-family:var(--font-body);
-      padding:40px 20px;
+    h1 {
+      margin-top: 40px;
+      font-size: 28px;
+      color: #7a1f1f;
+      font-weight: 700;
     }
 
-    header{
-      text-align:center;
-      padding:40px 20px 24px;
-      background:rgba(240,230,210,0.05);
-      border:1px solid rgba(240,230,210,0.15);
-      border-bottom:none;
+    .search-box {
+      margin: 30px auto;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
     }
 
-    h1{
-      margin:0;
-      font-size:2.2rem;
-      color:var(--title);
-      font-family:var(--font-serif);
-      text-transform:uppercase;
+    input {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 2px solid #7a1f1f;
+      border-radius: 8px;
+      outline: none;
     }
 
-    .subtitle{
-      margin:8px 0 0 0;
-      color:var(--title);
-      font-size:1rem;
-      font-family:var(--font-serif);
+    .autocomplete-list {
+      position: absolute;
+      width: 100%;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 2px;
+      z-index: 10;
+      display: none;
+      max-height: 200px;
+      overflow-y: auto;
     }
 
-    .card{
-      background:var(--card);
-      border:1px solid rgba(166,77,90,0.25);
-      padding:32px 24px 40px;
-      max-width:600px;
-      margin:24px auto 0 auto;
-      color:var(--title);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
+    .autocomplete-item {
+      padding: 10px;
+      cursor: pointer;
+      text-align: left;
     }
 
-    .input-wrapper{
-      width:100%;
-      max-width:420px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
+    .autocomplete-item:hover {
+      background: #f0e6e6;
     }
 
-    .label{
-      display:block;
-      font-size:0.9rem;
-      letter-spacing:1px;
-      color:var(--title);
-      margin:0 0 20px 0;
-      padding-bottom:12px;
-      border-bottom:1px solid var(--border-light);
-      text-transform:none;
-      width:100%;
-      text-align:center;
-      font-family:var(--font-serif);
-    }
-
-    input[type="text"]{
-      width:100%;
-      padding:12px 16px;
-      border:1px solid rgba(166,77,90,0.25);
-      background:rgba(20,10,14,0.5);
-      color:var(--title);
-      font-size:0.9rem;
-      font-style:italic;
-      font-family:var(--font-serif);
-    }
-
-    input[type="text"]::placeholder{
-      color:rgba(240,230,210,0.7);
-      font-style:italic;
-      font-size:0.9rem;
-    }
-
-    input[type="text"]:focus{
-      border-color:var(--accent-light);
-      background:rgba(20,10,14,0.7);
-      outline:none;
-    }
-
-    .suggestions{
-      list-style:none;
-      margin:10px 0 0 0;
-      padding:0;
-      background:rgba(20,10,14,0.85);
-      border:1px solid var(--border-light);
-      max-height:220px;
-      overflow-y:auto;
-      width:100%;
-      color:var(--title);
-    }
-
-    .suggestions li{
-      padding:12px 16px;
-      cursor:pointer;
-      color:var(--title);
-      border-bottom:1px solid var(--border-light);
-      font-family:var(--font-serif);
-    }
-
-    .suggestions li:hover{
-      background:rgba(166,77,90,0.25);
-    }
-
-    .result-text{
-      margin-top:20px;
-      display:block;
-      color:var(--title);
-      font-size:1.05rem;
-      font-family:var(--font-serif);
-      text-align:center;
-    }
-
-    .help-text{
-      margin-top:24px;
-      font-size:0.75rem;
-      font-style:italic;
-      text-align:center;
-      font-family:var(--font-serif);
-    }
-
-    @media (max-width:480px){
-      h1{ font-size:1.8rem; }
-      .card{ padding:24px 18px 32px; }
+    .result {
+      margin-top: 40px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #7a1f1f;
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <h1>Welcome to Zakareeyah & Sana's Walimah</h1>
-    <p class="subtitle">Let's help you get seated.</p>
-  </header>
 
-  <main class="card">
+  <h1>Find your seat at Zakareeyah & Sana’s Walimah</h1>
 
-    <div class="input-wrapper">
-      <label class="label">Enter your name below to find your table number</label>
+  <div class="search-box">
+    <input id="searchInput" type="text" placeholder="Enter your name..." autocomplete="off" />
+    <div id="autocompleteList" class="autocomplete-list"></div>
+  </div>
 
-      <input id="guest" type="text" placeholder="Enter your name…" autocomplete="name" />
-      <ul id="suggestions" class="suggestions"></ul>
-    </div>
-
-    <div id="result"></div>
-
-    <p class="help-text small">*If you're unable to find your name, please locate Zinneerah or Zumzum for assistance, thank you.*</p>
-  </main>
+  <div id="result" class="result"></div>
 
   <script>
     const PRESET = [
-      { name: 'Zakareeyah M.', seat: 'Table 1 (upper ground floor)' },
-      { name: 'John Smith', seat: 'A1' },
-      { name: 'Jane Smith', seat: 'A2' },
-      { name: 'Alice Brown', seat: 'B1' },
-      { name: 'Bob Johnson', seat: 'B2' },
-      { name: 'Carol Davis', seat: 'C1' },
-      { name: 'David Lee', seat: 'C2' }
+
+      /* ------------------------------
+         UPPER GROUND FLOOR (LEFT BALCONY)
+      ------------------------------ */
+      { name: 'Abaan', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Zain', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Fahmid', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Kadva', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Ahmed', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Arjun Khella', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Zaakir', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Easaa', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Mohammed Mussa', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Isa Yusuf', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Arjun Kooner', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Sahil', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Rajan', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Amin', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Mussa', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Imran Khan Patel', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Imran Patel', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Mushtak', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Imshad', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Zuber', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Faruk', seat: 'Upper ground floor (left balcony)' },
+      { name: 'Ahmed', seat: 'Upper ground floor (left balcony)' },
+
+      /* ------------------------------
+         UPPER GROUND FLOOR (RIGHT BALCONY)
+      ------------------------------ */
+      { name: 'Yasmin', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Kesh', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Asifa', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Arshad', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Zahra', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Nazma', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Khalid', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Memoona Gangat', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Ismail Gangat', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Fatima Sajee', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Shirin Gangat', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Yakub Gangat', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Hawagori', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Abdul Sattar', seat: 'Upper ground floor (right balcony)' },
+      { name: 'Yusuf bhai', seat: 'Upper ground floor (right balcony)' },
+
+      /* ------------------------------
+         TABLE 2
+      ------------------------------ */
+      { name: 'Sarita', seat: 'Table 2 (Lower ground floor)' },
+      { name: 'Dipesh', seat: 'Table 2 (Lower ground floor)' },
+      { name: 'Shamim', seat: 'Table 2 (Lower ground floor)' },
+      { name: 'Hussein', seat: 'Table 2 (Lower ground floor)' },
+      { name: 'Farzana', seat: 'Table 2 (Lower ground floor)' },
+      { name: 'Bashir', seat: 'Table 2 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 3
+      ------------------------------ */
+      { name: 'Ismail', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Yaaseen', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Zubeda', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Umed', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Zainab', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Abdullah', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Khadijah', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Aayah', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Aaishah', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Humza', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Naeem', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Maryam', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Yashira', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Fatima', seat: 'Table 3 (Lower ground floor)' },
+      { name: 'Shifaa', seat: 'Table 3 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 4
+      ------------------------------ */
+      { name: 'Aisha', seat: 'Table 4 (Lower ground floor)' },
+      { name: 'Ashif', seat: 'Table 4 (Lower ground floor)' },
+      { name: 'Zinneerah', seat: 'Table 4 (Lower ground floor)' },
+      { name: 'Zumzum', seat: 'Table 4 (Lower ground floor)' },
+      { name: 'Suleman', seat: 'Table 4 (Lower ground floor)' },
+      { name: 'Zubeda Sidyot', seat: 'Table 4 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 5
+      ------------------------------ */
+      { name: 'Mohamed', seat: 'Table 5 (Lower ground floor)' },
+      { name: 'Yasmin', seat: 'Table 5 (Lower ground floor)' },
+      { name: 'Muneeb', seat: 'Table 5 (Lower ground floor)' },
+      { name: 'Sophia', seat: 'Table 5 (Lower ground floor)' },
+      { name: 'Aasiyah', seat: 'Table 5 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 6
+      ------------------------------ */
+      { name: 'Asrar', seat: 'Table 6 (Lower ground floor)' },
+      { name: 'Isatu', seat: 'Table 6 (Lower ground floor)' },
+      { name: 'Safa', seat: 'Table 6 (Lower ground floor)' },
+      { name: 'Sahra', seat: 'Table 6 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 7
+      ------------------------------ */
+      { name: 'Sajeeda', seat: 'Table 7 (Lower ground floor)' },
+      { name: 'Humaira', seat: 'Table 7 (Lower ground floor)' },
+      { name: 'Akeel', seat: 'Table 7 (Lower ground floor)' },
+      { name: 'Hamza', seat: 'Table 7 (Lower ground floor)' },
+      { name: 'Aleksandra', seat: 'Table 7 (Lower ground floor)' },
+      { name: 'Hawa Baby', seat: 'Table 7 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 8
+      ------------------------------ */
+      { name: 'Zahira', seat: 'Table 8 (Lower ground floor)' },
+      { name: 'Amine', seat: 'Table 8 (Lower ground floor)' },
+      { name: 'Hana', seat: 'Table 8 (Lower ground floor)' },
+      { name: 'Yasmin Contractor', seat: 'Table 8 (Lower ground floor)' },
+      { name: 'Iqbal Contractor', seat: 'Table 8 (Lower ground floor)' },
+      { name: 'Aysha Master', seat: 'Table 8 (Lower ground floor)' },
+      { name: 'Imtiaz', seat: 'Table 8 (Lower ground floor)' },
+      { name: 'Jabeen', seat: 'Table 8 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 9
+      ------------------------------ */
+      { name: 'Yasmin', seat: 'Table 9 (Lower ground floor)' },
+      { name: 'Fawzee', seat: 'Table 9 (Lower ground floor)' },
+      { name: 'Muhammad', seat: 'Table 9 (Lower ground floor)' },
+      { name: 'Alaya', seat: 'Table 9 (Lower ground floor)' },
+      { name: 'Sumaiyah', seat: 'Table 9 (Lower ground floor)' },
+      { name: 'Saif', seat: 'Table 9 (Lower ground floor)' },
+      { name: 'Liyana', seat: 'Table 9 (Lower ground floor)' },
+      { name: 'Eesa', seat: 'Table 9 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 10
+      ------------------------------ */
+      { name: 'Gursharon', seat: 'Table 10 (Lower ground floor)' },
+      { name: 'Bhavika', seat: 'Table 10 (Lower ground floor)' },
+      { name: 'Vritika', seat: 'Table 10 (Lower ground floor)' },
+      { name: 'Balvinder', seat: 'Table 10 (Lower ground floor)' },
+      { name: 'Simran', seat: 'Table 10 (Lower ground floor)' },
+      { name: 'Parminder', seat: 'Table 10 (Lower ground floor)' },
+      { name: 'Amrita', seat: 'Table 10 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 11
+      ------------------------------ */
+      { name: 'Fayyad', seat: 'Table 11 (Lower ground floor)' },
+      { name: 'Saleha', seat: 'Table 11 (Lower ground floor)' },
+      { name: 'Diksha', seat: 'Table 11 (Lower ground floor)' },
+      { name: 'Parveen', seat: 'Table 11 (Lower ground floor)' },
+      { name: 'Shaheen', seat: 'Table 11 (Lower ground floor)' },
+      { name: 'Umaymah', seat: 'Table 11 (Lower ground floor)' },
+      { name: 'Safiyyah', seat: 'Table 11 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 12
+      ------------------------------ */
+      { name: 'Yusuf', seat: 'Table 12 (Lower ground floor)' },
+      { name: 'Madinah', seat: 'Table 12 (Lower ground floor)' },
+      { name: 'Saima', seat: 'Table 12 (Lower ground floor)' },
+      { name: 'Upjot', seat: 'Table 12 (Lower ground floor)' },
+      { name: 'Rafay', seat: 'Table 12 (Lower ground floor)' },
+      { name: 'Ed', seat: 'Table 12 (Lower ground floor)' },
+      { name: 'Sammy', seat: 'Table 12 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 13
+      ------------------------------ */
+      { name: 'Aslam', seat: 'Table 13 (Lower ground floor)' },
+      { name: 'Shamim', seat: 'Table 13 (Lower ground floor)' },
+      { name: 'Nargis', seat: 'Table 13 (Lower ground floor)' },
+      { name: 'Ajmal', seat: 'Table 13 (Lower ground floor)' },
+      { name: 'Zakariya', seat: 'Table 13 (Lower ground floor)' },
+      { name: 'Hawa', seat: 'Table 13 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 14
+      ------------------------------ */
+      { name: 'Abdullah', seat: 'Table 14 (Lower ground floor)' },
+      { name: 'Azad', seat: 'Table 14 (Lower ground floor)' },
+      { name: 'Meerab', seat: 'Table 14 (Lower ground floor)' },
+      { name: 'Uzair G', seat: 'Table 14 (Lower ground floor)' },
+      { name: 'Abraar G', seat: 'Table 14 (Lower ground floor)' },
+      { name: 'Mo G', seat: 'Table 14 (Lower ground floor)' },
+      { name: 'Umaimah', seat: 'Table 14 (Lower ground floor)' },
+      { name: 'Mohammed Dassu', seat: 'Table 14 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 15
+      ------------------------------ */
+      { name: 'Zaynul', seat: 'Table 15 (Lower ground floor)' },
+      { name: 'Adam', seat: 'Table 15 (Lower ground floor)' },
+      { name: 'Sana', seat: 'Table 15 (Lower ground floor)' },
+      { name: 'Zubeir', seat: 'Table 15 (Lower ground floor)' },
+      { name: 'Isaa', seat: 'Table 15 (Lower ground floor)' },
+      { name: 'Idrees', seat: 'Table 15 (Lower ground floor)' },
+      { name: 'Irfan', seat: 'Table 15 (Lower ground floor)' },
+      { name: 'Hamza', seat: 'Table 15 (Lower ground floor)' },
+
+      /* ------------------------------
+         TABLE 16
+      ------------------------------ */
+      { name: 'Hanif', seat: 'Table 16 (Lower ground floor)' },
+      { name: 'Yasmin Master', seat: 'Table 16 (Lower ground floor)' },
+      { name: 'Iqbal Master', seat: 'Table 16 (Lower ground floor)' },
+      { name: 'Hasan', seat: 'Table 16 (Lower ground floor)' },
+      { name: 'Amirah', seat: 'Table 16 (Lower ground floor)' },
+      { name: 'Dua', seat: 'Table 16 (Lower ground floor)' },
+      { name: 'Umar', seat: 'Table 16 (Lower ground floor)' }
     ];
 
-    const guestEl = document.getElementById('guest');
-    const resultEl = document.getElementById('result');
-    const suggestionsEl = document.getElementById('suggestions');
+    /* ------------------------------
+       AUTOCOMPLETE + SEARCH LOGIC
+    ------------------------------ */
 
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    }
+    const input = document.getElementById("searchInput");
+    const list = document.getElementById("autocompleteList");
+    const result = document.getElementById("result");
 
-    function levenshtein(a, b) {
-      const matrix = Array.from({ length: a.length + 1 }, () => []);
-      for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
-      for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+    input.addEventListener("input", () => {
+      const value = input.value.toLowerCase();
+      list.innerHTML = "";
 
-      for (let i = 1; i <= a.length; i++) {
-        for (let j = 1; j <= b.length; j++) {
-          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-          matrix[i][j] = Math.min(
-            matrix[i - 1][j] + 1,
-            matrix[i][j - 1] + 1,
-            matrix[i - 1][j - 1] + cost
-          );
-        }
+      if (!value) {
+        list.style.display = "none";
+        return;
       }
-      return matrix[a.length][b.length];
-    }
 
-    function updateResults(query){
-      resultEl.innerHTML = '';
-      suggestionsEl.innerHTML = '';
+      const matches = PRESET.filter(p => p.name.toLowerCase().includes(value));
 
-      if(query.length < 3) return;
-
-      const q = query.toLowerCase();
-
-      const matches = PRESET.filter(p => {
-        const name = p.name.toLowerCase();
-        return (
-          name.includes(q) ||
-          name.startsWith(q) ||
-          q.split(' ').every(word => name.includes(word)) ||
-          levenshtein(name, q) <= 2
-        );
-      });
-
-      if(matches.length === 1){
-        const m = matches[0];
-        const duplicates = PRESET.filter(p => p.name.toLowerCase() === m.name.toLowerCase());
-
-        if(duplicates.length === 1){
-          suggestionsEl.innerHTML = '';
-          resultEl.innerHTML =
-            `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — you're on ${escapeHtml(m.seat.toUpperCase())}</span>`;
-          return;
-        }
+      if (matches.length === 0) {
+        list.style.display = "none";
+        return;
       }
 
       matches.forEach(m => {
-        const li = document.createElement('li');
-        li.innerHTML = `${escapeHtml(m.name)} — ${escapeHtml(m.seat)}`;
-        li.addEventListener('click', () => {
-          guestEl.value = m.name;
-          suggestionsEl.innerHTML = '';
-          resultEl.innerHTML =
-            `<span class="result-text">Welcome <strong>${escapeHtml(m.name)}</strong> — you're on ${escapeHtml(m.seat.toUpperCase())}</span>`;
-        });
-        suggestionsEl.appendChild(li);
-      });
-    }
-
-    guestEl.addEventListener('input', () => {
-      updateResults(guestEl.value.trim());
-    });
-  </script>
-
-</body>
-</html>
+        const item = document.createElement("div");
+        item.className = "autocomplete-item";
+        item.textContent = m.name;
+        item.onclick = () => {
+          input.value = m.name
